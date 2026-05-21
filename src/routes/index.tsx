@@ -1,6 +1,6 @@
-import WelcomeUser from "#/components/welcome-user";
 import { Badge } from "#/components/ui/badge";
 import { Card, CardContent } from "#/components/ui/card";
+import WelcomeUser from "#/components/welcome-user";
 import { Show } from "@clerk/tanstack-react-start";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Beaker, FileCheck2, FlaskConical, ShieldCheck } from "lucide-react";
@@ -13,15 +13,14 @@ function Home() {
       <Card className="overflow-hidden rounded-3xl border-slate-200/70 shadow-xl shadow-slate-300/35">
         <div className="grid gap-0 lg:grid-cols-[1.12fr_0.88fr]">
           <div className="p-6 sm:p-8 lg:p-10">
-            <Badge className="tracking-[0.18em]">
-              Food Services Intelligence
-            </Badge>
+            <Badge className="tracking-[0.18em]">Food Services Intelligence</Badge>
             <h1 className="mt-4 font-[Fraunces] text-4xl font-semibold tracking-tight text-slate-900 sm:text-5xl">
               Welcome to Galmere Portal
             </h1>
             <p className="mt-4 max-w-2xl text-sm leading-relaxed text-slate-700 sm:text-base">
-              Centralize additive and flavouring intelligence, product readiness, compliance records,
-              and operational documents in one workspace built for fast food service decisions.
+              Centralize additive and flavouring intelligence, product readiness, compliance
+              records, and operational documents in one workspace built for fast food service
+              decisions.
             </p>
 
             <div className="mt-6 flex flex-wrap items-center gap-3">
@@ -84,7 +83,10 @@ function Home() {
           </Link>
         </Card>
 
-        <Card className="rounded-2xl p-0 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md" asChild>
+        <Card
+          className="rounded-2xl p-0 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+          asChild
+        >
           <Link to="/flavourings">
             <CardContent className="p-5">
               <FlaskConical className="size-5 text-cyan-700" />
@@ -94,7 +96,10 @@ function Home() {
           </Link>
         </Card>
 
-        <Card className="rounded-2xl p-0 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md" asChild>
+        <Card
+          className="rounded-2xl p-0 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+          asChild
+        >
           <Link to="/documents">
             <CardContent className="p-5">
               <FileCheck2 className="size-5 text-amber-700" />
@@ -104,7 +109,10 @@ function Home() {
           </Link>
         </Card>
 
-        <Card className="rounded-2xl p-0 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md" asChild>
+        <Card
+          className="rounded-2xl p-0 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+          asChild
+        >
           <Link to="/process-haccp">
             <CardContent className="p-5">
               <ShieldCheck className="size-5 text-rose-700" />

@@ -28,12 +28,15 @@ function RouteComponent() {
   return (
     <section className="mx-auto max-w-6xl space-y-5">
       <header className="rounded-3xl border border-slate-200/70 bg-white p-6 shadow-xl shadow-slate-200/60 sm:p-8">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700">Additive Detail</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700">
+          Additive Detail
+        </p>
         <h1 className="mt-2 font-[Fraunces] text-3xl font-semibold text-slate-900 sm:text-4xl">
           Additive Record Snapshot
         </h1>
         <p className="mt-2 text-sm text-slate-700">
-          Raw API payload for this additive is shown below. A richer detail view can be layered onto this structure.
+          Raw API payload for this additive is shown below. A richer detail view can be layered onto
+          this structure.
         </p>
       </header>
 

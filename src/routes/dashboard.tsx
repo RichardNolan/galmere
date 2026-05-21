@@ -17,11 +17,15 @@ function RouteComponent() {
   return (
     <section className="mx-auto max-w-6xl space-y-6">
       <div className="rounded-3xl border border-slate-200/70 bg-white p-6 shadow-xl shadow-slate-200/60 sm:p-8">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700">Overview</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700">
+          Overview
+        </p>
         <h1 className="mt-2 font-[Fraunces] text-3xl font-semibold text-slate-900 sm:text-4xl">
           Welcome back
         </h1>
-        <p className="mt-2 text-sm text-slate-700">Signed in as {userId}. Review operational activity and compliance status.</p>
+        <p className="mt-2 text-sm text-slate-700">
+          Signed in as {userId}. Review operational activity and compliance status.
+        </p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -51,13 +55,22 @@ function RouteComponent() {
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
           <p className="text-sm font-semibold text-slate-900">Jump to catalogs</p>
           <div className="mt-4 flex flex-wrap gap-3 text-sm font-medium">
-            <Link to="/additives" className="rounded-lg border border-slate-300 px-3 py-2 text-slate-700 hover:bg-slate-50">
+            <Link
+              to="/additives"
+              className="rounded-lg border border-slate-300 px-3 py-2 text-slate-700 hover:bg-slate-50"
+            >
               Additives
             </Link>
-            <Link to="/flavourings" className="rounded-lg border border-slate-300 px-3 py-2 text-slate-700 hover:bg-slate-50">
+            <Link
+              to="/flavourings"
+              className="rounded-lg border border-slate-300 px-3 py-2 text-slate-700 hover:bg-slate-50"
+            >
               Flavourings
             </Link>
-            <Link to="/saved-products" className="rounded-lg border border-slate-300 px-3 py-2 text-slate-700 hover:bg-slate-50">
+            <Link
+              to="/saved-products"
+              className="rounded-lg border border-slate-300 px-3 py-2 text-slate-700 hover:bg-slate-50"
+            >
               Saved products
             </Link>
           </div>
@@ -71,7 +84,8 @@ function RouteComponent() {
           />
           <div className="p-5">
             <p className="text-sm text-slate-600">
-              Keep documentation, labeling, and process controls aligned while product teams move fast.
+              Keep documentation, labeling, and process controls aligned while product teams move
+              fast.
             </p>
           </div>
         </div>

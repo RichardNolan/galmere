@@ -1,23 +1,23 @@
-import * as React from "react"
-import { Dialog } from "radix-ui"
-import { X } from "lucide-react"
+import { X } from "lucide-react";
+import { Dialog } from "radix-ui";
+import * as React from "react";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 function Sheet({ ...props }: React.ComponentProps<typeof Dialog.Root>) {
-  return <Dialog.Root data-slot="sheet" {...props} />
+  return <Dialog.Root data-slot="sheet" {...props} />;
 }
 
 function SheetTrigger({ ...props }: React.ComponentProps<typeof Dialog.Trigger>) {
-  return <Dialog.Trigger data-slot="sheet-trigger" {...props} />
+  return <Dialog.Trigger data-slot="sheet-trigger" {...props} />;
 }
 
 function SheetClose({ ...props }: React.ComponentProps<typeof Dialog.Close>) {
-  return <Dialog.Close data-slot="sheet-close" {...props} />
+  return <Dialog.Close data-slot="sheet-close" {...props} />;
 }
 
 function SheetPortal({ ...props }: React.ComponentProps<typeof Dialog.Portal>) {
-  return <Dialog.Portal data-slot="sheet-portal" {...props} />
+  return <Dialog.Portal data-slot="sheet-portal" {...props} />;
 }
 
 function SheetOverlay({ className, ...props }: React.ComponentProps<typeof Dialog.Overlay>) {
@@ -26,14 +26,19 @@ function SheetOverlay({ className, ...props }: React.ComponentProps<typeof Dialo
       data-slot="sheet-overlay"
       className={cn(
         "fixed inset-0 z-40 bg-slate-900/50 backdrop-blur-[2px] data-[state=open]:animate-in data-[state=closed]:animate-out",
-        className
+        className,
       )}
       {...props}
     />
-  )
+  );
 }
 
-function SheetContent({ className, children, side = "left", ...props }: React.ComponentProps<typeof Dialog.Content> & { side?: "top" | "right" | "bottom" | "left" }) {
+function SheetContent({
+  className,
+  children,
+  side = "left",
+  ...props
+}: React.ComponentProps<typeof Dialog.Content> & { side?: "top" | "right" | "bottom" | "left" }) {
   return (
     <SheetPortal>
       <SheetOverlay />
@@ -49,7 +54,7 @@ function SheetContent({ className, children, side = "left", ...props }: React.Co
             "inset-x-0 top-0 border-b data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top",
           side === "bottom" &&
             "inset-x-0 bottom-0 border-t data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom",
-          className
+          className,
         )}
         {...props}
       >
@@ -60,19 +65,40 @@ function SheetContent({ className, children, side = "left", ...props }: React.Co
         </SheetClose>
       </Dialog.Content>
     </SheetPortal>
-  )
+  );
 }
 
 function SheetHeader({ className, ...props }: React.ComponentProps<"div">) {
-  return <div data-slot="sheet-header" className={cn("mb-4 flex flex-col gap-1", className)} {...props} />
+  return (
+    <div
+      data-slot="sheet-header"
+      className={cn("mb-4 flex flex-col gap-1", className)}
+      {...props}
+    />
+  );
 }
 
 function SheetTitle({ className, ...props }: React.ComponentProps<typeof Dialog.Title>) {
-  return <Dialog.Title data-slot="sheet-title" className={cn("font-[Fraunces] text-xl font-semibold text-slate-900", className)} {...props} />
+  return (
+    <Dialog.Title
+      data-slot="sheet-title"
+      className={cn("font-[Fraunces] text-xl font-semibold text-slate-900", className)}
+      {...props}
+    />
+  );
 }
 
-function SheetDescription({ className, ...props }: React.ComponentProps<typeof Dialog.Description>) {
-  return <Dialog.Description data-slot="sheet-description" className={cn("text-sm text-slate-600", className)} {...props} />
+function SheetDescription({
+  className,
+  ...props
+}: React.ComponentProps<typeof Dialog.Description>) {
+  return (
+    <Dialog.Description
+      data-slot="sheet-description"
+      className={cn("text-sm text-slate-600", className)}
+      {...props}
+    />
+  );
 }
 
-export { Sheet, SheetTrigger, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetDescription }
+export { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger };

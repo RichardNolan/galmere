@@ -1,9 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { createServerFn } from "@tanstack/react-start";
-import { useMemo, useState } from "react";
 import { Badge } from "#/components/ui/badge";
 import { Card, CardContent } from "#/components/ui/card";
 import { Separator } from "#/components/ui/separator";
+import { createFileRoute } from "@tanstack/react-router";
+import { createServerFn } from "@tanstack/react-start";
+import { useMemo, useState } from "react";
 
 type AdditiveRecord = {
   food_flavouring_name?: string;
@@ -88,9 +88,11 @@ function RouteComponent() {
 
   return (
     <main className="mx-auto max-w-7xl space-y-7">
-        <Card className="rounded-2xl border-orange-200/70 bg-white/90 shadow-[0_22px_70px_-35px_rgba(194,65,12,0.45)] backdrop-blur">
-          <CardContent className="p-5 sm:p-6">
-          <Badge variant="accent" className="tracking-[0.24em]">EU Data Lake</Badge>
+      <Card className="rounded-2xl border-orange-200/70 bg-white/90 shadow-[0_22px_70px_-35px_rgba(194,65,12,0.45)] backdrop-blur">
+        <CardContent className="p-5 sm:p-6">
+          <Badge variant="accent" className="tracking-[0.24em]">
+            EU Data Lake
+          </Badge>
           <h1 className="mt-2 text-3xl font-black leading-tight text-zinc-900 sm:text-4xl">
             Food Flavourings Explorer
           </h1>
@@ -98,11 +100,11 @@ function RouteComponent() {
             Browse and inspect food flavourings in a focused catalog view. Search by name, code, or
             policy item id.
           </p>
-          </CardContent>
-        </Card>
+        </CardContent>
+      </Card>
 
-        <Card className="rounded-2xl border-zinc-200 bg-white/95 shadow-xl shadow-zinc-200/70 backdrop-blur">
-          <CardContent className="p-4 sm:p-5">
+      <Card className="rounded-2xl border-zinc-200 bg-white/95 shadow-xl shadow-zinc-200/70 backdrop-blur">
+        <CardContent className="p-4 sm:p-5">
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             <label className="xl:col-span-2 md:col-span-2">
               <span className="mb-1 block text-xs font-semibold uppercase tracking-wide text-zinc-600">
@@ -150,42 +152,42 @@ function RouteComponent() {
               Showing {filteredItems.length} of {items.length}
             </p>
           </div>
-          </CardContent>
-        </Card>
+        </CardContent>
+      </Card>
 
-        <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {filteredItems.map((additive) => (
-            <Card
-              key={additive.policy_item_id}
-              className="group flex h-full flex-col border-orange-100 p-4 shadow-md shadow-orange-100/30 transition duration-200 hover:-translate-y-0.5 hover:border-orange-300 hover:shadow-lg hover:shadow-orange-200/40"
-            >
-              <Badge variant="accent" className="mb-2 w-fit tracking-[0.12em]">
-                {additive.policy_item_code || "No policy code"}
-              </Badge>
+      <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {filteredItems.map((additive) => (
+          <Card
+            key={additive.policy_item_id}
+            className="group flex h-full flex-col border-orange-100 p-4 shadow-md shadow-orange-100/30 transition duration-200 hover:-translate-y-0.5 hover:border-orange-300 hover:shadow-lg hover:shadow-orange-200/40"
+          >
+            <Badge variant="accent" className="mb-2 w-fit tracking-[0.12em]">
+              {additive.policy_item_code || "No policy code"}
+            </Badge>
 
-              <h2 className="line-clamp-2 text-base font-bold leading-tight text-zinc-900">
-                {additive.food_flavouring_name || "Unknown flavouring"}
-              </h2>
+            <h2 className="line-clamp-2 text-base font-bold leading-tight text-zinc-900">
+              {additive.food_flavouring_name || "Unknown flavouring"}
+            </h2>
 
-              <p className="mt-1.5 text-sm text-zinc-700">
-                <span className="font-semibold text-zinc-900">Policy item id:</span>{" "}
-                {additive.policy_item_id}
-              </p>
+            <p className="mt-1.5 text-sm text-zinc-700">
+              <span className="font-semibold text-zinc-900">Policy item id:</span>{" "}
+              {additive.policy_item_id}
+            </p>
 
-              <div className="mt-auto pt-4">
-                <span className="inline-flex items-center rounded-lg bg-zinc-100 px-2.5 py-1.5 text-xs font-medium text-zinc-500">
-                  Details view not available
-                </span>
-              </div>
-            </Card>
-          ))}
-        </section>
+            <div className="mt-auto pt-4">
+              <span className="inline-flex items-center rounded-lg bg-zinc-100 px-2.5 py-1.5 text-xs font-medium text-zinc-500">
+                Details view not available
+              </span>
+            </div>
+          </Card>
+        ))}
+      </section>
 
-        {filteredItems.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-zinc-300 bg-white/90 p-8 text-center text-zinc-700">
-            No flavourings matched your filters. Try clearing one or more filter fields.
-          </div>
-        ) : null}
+      {filteredItems.length === 0 ? (
+        <div className="rounded-2xl border border-dashed border-zinc-300 bg-white/90 p-8 text-center text-zinc-700">
+          No flavourings matched your filters. Try clearing one or more filter fields.
+        </div>
+      ) : null}
     </main>
   );
 }

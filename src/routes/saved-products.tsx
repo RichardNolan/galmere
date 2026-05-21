@@ -26,7 +26,9 @@ function RouteComponent() {
         <h1 className="mt-3 font-[Fraunces] text-3xl font-semibold text-slate-900 sm:text-4xl">
           Saved Products
         </h1>
-        <p className="mt-2 text-sm text-slate-700">Edit existing products and keep naming aligned across teams.</p>
+        <p className="mt-2 text-sm text-slate-700">
+          Edit existing products and keep naming aligned across teams.
+        </p>
       </header>
 
       <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">

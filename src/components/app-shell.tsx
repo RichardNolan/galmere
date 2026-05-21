@@ -1,3 +1,15 @@
+import { Badge } from "#/components/ui/badge";
+import { Button } from "#/components/ui/button";
+import { Card, CardContent } from "#/components/ui/card";
+import { Separator } from "#/components/ui/separator";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "#/components/ui/sheet";
 import { Show, UserButton } from "@clerk/tanstack-react-start";
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
@@ -16,11 +28,6 @@ import {
   TestTube2,
 } from "lucide-react";
 import { useMemo, useState } from "react";
-import { Button } from "#/components/ui/button";
-import { Badge } from "#/components/ui/badge";
-import { Card, CardContent } from "#/components/ui/card";
-import { Separator } from "#/components/ui/separator";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "#/components/ui/sheet";
 
 type AppShellProps = {
   children: React.ReactNode;
@@ -116,7 +123,9 @@ function SignedInShell({ children }: AppShellProps) {
             <SheetContent side="left" className="lg:hidden">
               <SheetHeader>
                 <SheetTitle>Portal Menu</SheetTitle>
-                <SheetDescription>Navigate key food service and compliance sections.</SheetDescription>
+                <SheetDescription>
+                  Navigate key food service and compliance sections.
+                </SheetDescription>
               </SheetHeader>
               <Separator className="mb-4" />
               <NavigationList onNavigate={() => setMobileMenuOpen(false)} />
@@ -127,13 +136,18 @@ function SignedInShell({ children }: AppShellProps) {
             <span className="grid size-9 place-items-center rounded-xl bg-emerald-600 text-white shadow-lg shadow-emerald-600/30">
               <Sparkles className="size-4" />
             </span>
-            <span className="font-[Fraunces] text-xl font-semibold tracking-tight text-slate-900">Galmere</span>
+            <span className="font-[Fraunces] text-xl font-semibold tracking-tight text-slate-900">
+              Galmere
+            </span>
           </Link>
 
           <nav className="ml-6 hidden items-center gap-1 lg:flex">
             {topLevelLinks.map((link) => (
               <Button key={link.label} variant="ghost" size="sm" asChild>
-                <Link to={link.to} className="rounded-lg px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-emerald-50 hover:text-emerald-800">
+                <Link
+                  to={link.to}
+                  className="rounded-lg px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-emerald-50 hover:text-emerald-800"
+                >
                   {link.label}
                 </Link>
               </Button>
@@ -166,7 +180,9 @@ function SignedInShell({ children }: AppShellProps) {
           <NavigationList />
         </aside>
 
-        <main className="min-h-[calc(100vh-4rem)] flex-1 px-4 py-6 lg:px-8 lg:py-8">{children}</main>
+        <main className="min-h-[calc(100vh-4rem)] flex-1 px-4 py-6 lg:px-8 lg:py-8">
+          {children}
+        </main>
       </div>
 
       <ShellFooter />
@@ -183,7 +199,9 @@ function SignedOutShell({ children }: AppShellProps) {
           <span className="grid size-10 place-items-center rounded-xl bg-emerald-600 text-white shadow-lg shadow-emerald-600/30">
             <Sparkles className="size-5" />
           </span>
-          <span className="font-[Fraunces] text-2xl font-semibold tracking-tight text-slate-900">Galmere</span>
+          <span className="font-[Fraunces] text-2xl font-semibold tracking-tight text-slate-900">
+            Galmere
+          </span>
         </Link>
         <div className="w-full rounded-3xl border border-white/80 bg-white/90 p-4 shadow-xl shadow-slate-300/30 sm:p-8">
           {children}
