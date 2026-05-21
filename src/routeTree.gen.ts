@@ -16,11 +16,14 @@ import { Route as NutritionRouteImport } from './routes/nutrition'
 import { Route as LabelingRouteImport } from './routes/labeling'
 import { Route as LabAverageRouteImport } from './routes/lab-average'
 import { Route as IngredientsClaimsRouteImport } from './routes/ingredients-claims'
+import { Route as FlavouringsRouteImport } from './routes/flavourings'
 import { Route as DocumentsRouteImport } from './routes/documents'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as AdditivesRouteImport } from './routes/additives'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SignUpSplatRouteImport } from './routes/sign-up.$'
 import { Route as SignInSplatRouteImport } from './routes/sign-in.$'
+import { Route as AdditivesIdRouteImport } from './routes/additives_.$id'
 
 const SavedProductsRoute = SavedProductsRouteImport.update({
   id: '/saved-products',
@@ -57,6 +60,11 @@ const IngredientsClaimsRoute = IngredientsClaimsRouteImport.update({
   path: '/ingredients-claims',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FlavouringsRoute = FlavouringsRouteImport.update({
+  id: '/flavourings',
+  path: '/flavourings',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DocumentsRoute = DocumentsRouteImport.update({
   id: '/documents',
   path: '/documents',
@@ -65,6 +73,11 @@ const DocumentsRoute = DocumentsRouteImport.update({
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdditivesRoute = AdditivesRouteImport.update({
+  id: '/additives',
+  path: '/additives',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -82,11 +95,18 @@ const SignInSplatRoute = SignInSplatRouteImport.update({
   path: '/sign-in/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdditivesIdRoute = AdditivesIdRouteImport.update({
+  id: '/additives_/$id',
+  path: '/additives/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/additives': typeof AdditivesRoute
   '/dashboard': typeof DashboardRoute
   '/documents': typeof DocumentsRoute
+  '/flavourings': typeof FlavouringsRoute
   '/ingredients-claims': typeof IngredientsClaimsRoute
   '/lab-average': typeof LabAverageRoute
   '/labeling': typeof LabelingRoute
@@ -94,13 +114,16 @@ export interface FileRoutesByFullPath {
   '/packaging': typeof PackagingRoute
   '/process-haccp': typeof ProcessHaccpRoute
   '/saved-products': typeof SavedProductsRoute
+  '/additives/$id': typeof AdditivesIdRoute
   '/sign-in/$': typeof SignInSplatRoute
   '/sign-up/$': typeof SignUpSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/additives': typeof AdditivesRoute
   '/dashboard': typeof DashboardRoute
   '/documents': typeof DocumentsRoute
+  '/flavourings': typeof FlavouringsRoute
   '/ingredients-claims': typeof IngredientsClaimsRoute
   '/lab-average': typeof LabAverageRoute
   '/labeling': typeof LabelingRoute
@@ -108,14 +131,17 @@ export interface FileRoutesByTo {
   '/packaging': typeof PackagingRoute
   '/process-haccp': typeof ProcessHaccpRoute
   '/saved-products': typeof SavedProductsRoute
+  '/additives/$id': typeof AdditivesIdRoute
   '/sign-in/$': typeof SignInSplatRoute
   '/sign-up/$': typeof SignUpSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/additives': typeof AdditivesRoute
   '/dashboard': typeof DashboardRoute
   '/documents': typeof DocumentsRoute
+  '/flavourings': typeof FlavouringsRoute
   '/ingredients-claims': typeof IngredientsClaimsRoute
   '/lab-average': typeof LabAverageRoute
   '/labeling': typeof LabelingRoute
@@ -123,6 +149,7 @@ export interface FileRoutesById {
   '/packaging': typeof PackagingRoute
   '/process-haccp': typeof ProcessHaccpRoute
   '/saved-products': typeof SavedProductsRoute
+  '/additives_/$id': typeof AdditivesIdRoute
   '/sign-in/$': typeof SignInSplatRoute
   '/sign-up/$': typeof SignUpSplatRoute
 }
@@ -130,8 +157,10 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/additives'
     | '/dashboard'
     | '/documents'
+    | '/flavourings'
     | '/ingredients-claims'
     | '/lab-average'
     | '/labeling'
@@ -139,13 +168,16 @@ export interface FileRouteTypes {
     | '/packaging'
     | '/process-haccp'
     | '/saved-products'
+    | '/additives/$id'
     | '/sign-in/$'
     | '/sign-up/$'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/additives'
     | '/dashboard'
     | '/documents'
+    | '/flavourings'
     | '/ingredients-claims'
     | '/lab-average'
     | '/labeling'
@@ -153,13 +185,16 @@ export interface FileRouteTypes {
     | '/packaging'
     | '/process-haccp'
     | '/saved-products'
+    | '/additives/$id'
     | '/sign-in/$'
     | '/sign-up/$'
   id:
     | '__root__'
     | '/'
+    | '/additives'
     | '/dashboard'
     | '/documents'
+    | '/flavourings'
     | '/ingredients-claims'
     | '/lab-average'
     | '/labeling'
@@ -167,14 +202,17 @@ export interface FileRouteTypes {
     | '/packaging'
     | '/process-haccp'
     | '/saved-products'
+    | '/additives_/$id'
     | '/sign-in/$'
     | '/sign-up/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdditivesRoute: typeof AdditivesRoute
   DashboardRoute: typeof DashboardRoute
   DocumentsRoute: typeof DocumentsRoute
+  FlavouringsRoute: typeof FlavouringsRoute
   IngredientsClaimsRoute: typeof IngredientsClaimsRoute
   LabAverageRoute: typeof LabAverageRoute
   LabelingRoute: typeof LabelingRoute
@@ -182,6 +220,7 @@ export interface RootRouteChildren {
   PackagingRoute: typeof PackagingRoute
   ProcessHaccpRoute: typeof ProcessHaccpRoute
   SavedProductsRoute: typeof SavedProductsRoute
+  AdditivesIdRoute: typeof AdditivesIdRoute
   SignInSplatRoute: typeof SignInSplatRoute
   SignUpSplatRoute: typeof SignUpSplatRoute
 }
@@ -237,6 +276,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IngredientsClaimsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/flavourings': {
+      id: '/flavourings'
+      path: '/flavourings'
+      fullPath: '/flavourings'
+      preLoaderRoute: typeof FlavouringsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/documents': {
       id: '/documents'
       path: '/documents'
@@ -249,6 +295,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/additives': {
+      id: '/additives'
+      path: '/additives'
+      fullPath: '/additives'
+      preLoaderRoute: typeof AdditivesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -272,13 +325,22 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignInSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/additives_/$id': {
+      id: '/additives_/$id'
+      path: '/additives/$id'
+      fullPath: '/additives/$id'
+      preLoaderRoute: typeof AdditivesIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdditivesRoute: AdditivesRoute,
   DashboardRoute: DashboardRoute,
   DocumentsRoute: DocumentsRoute,
+  FlavouringsRoute: FlavouringsRoute,
   IngredientsClaimsRoute: IngredientsClaimsRoute,
   LabAverageRoute: LabAverageRoute,
   LabelingRoute: LabelingRoute,
@@ -286,6 +348,7 @@ const rootRouteChildren: RootRouteChildren = {
   PackagingRoute: PackagingRoute,
   ProcessHaccpRoute: ProcessHaccpRoute,
   SavedProductsRoute: SavedProductsRoute,
+  AdditivesIdRoute: AdditivesIdRoute,
   SignInSplatRoute: SignInSplatRoute,
   SignUpSplatRoute: SignUpSplatRoute,
 }

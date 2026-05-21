@@ -1,5 +1,6 @@
 import { UserButton } from "@clerk/tanstack-react-start";
 import { Link } from "@tanstack/react-router";
+import { Button } from "./ui/button";
 
 export default function Header() {
   return (
@@ -21,6 +22,12 @@ export default function Header() {
           <Link to="/saved-products" className="text-slate-700 hover:text-slate-900">
             Products
           </Link>
+          <Button variant="outline" size="sm" asChild>
+            <Link to="/additives">Explore Additives</Link>
+          </Button>
+          <Button variant="outline" size="sm" asChild>
+            <Link to="/flavourings">Explore Flavourings</Link>
+          </Button>
         </nav>
         <UserButton />
       </div>
