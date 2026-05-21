@@ -21,7 +21,7 @@ function RouteComponent() {
           Overview
         </p>
         <h1 className="mt-2 font-[Fraunces] text-3xl font-semibold text-slate-900 sm:text-4xl">
-          Welcome back
+          Welcome
         </h1>
         <p className="mt-2 text-sm text-slate-700">
           Signed in as {userId}. Review operational activity and compliance status.
