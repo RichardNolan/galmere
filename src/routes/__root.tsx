@@ -1,4 +1,4 @@
-import { ClerkProvider, Show } from "@clerk/tanstack-react-start";
+import { ClerkProvider } from "@clerk/tanstack-react-start";
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import { HeadContent, Scripts, createRootRouteWithContext } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
@@ -7,8 +7,7 @@ import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
 
 import appCss from "../styles.css?url";
 
-import Footer from "#/components/footer";
-import Header from "#/components/header";
+import AppShell from "#/components/app-shell";
 import type { QueryClient } from "@tanstack/react-query";
 
 interface MyRouterContext {
@@ -31,6 +30,19 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
     ],
     links: [
       {
+        rel: "preconnect",
+        href: "https://fonts.googleapis.com",
+      },
+      {
+        rel: "preconnect",
+        href: "https://fonts.gstatic.com",
+        crossOrigin: "anonymous",
+      },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap",
+      },
+      {
         rel: "stylesheet",
         href: appCss,
       },
@@ -47,11 +59,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <ClerkProvider>
-          <Show when="signed-in">
-            <Header />
-          </Show>
-          {children}
-          <Footer />
+          <AppShell>{children}</AppShell>
         </ClerkProvider>
         <TanStackDevtools
           config={{

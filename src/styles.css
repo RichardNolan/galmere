@@ -1,6 +1,10 @@
 
 @import "tailwindcss";
 
+:root {
+  color-scheme: light;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -13,5 +17,34 @@ body,
 
 body {
   margin: 0;
+  font-family: "Manrope", "Segoe UI", sans-serif;
+  color: #0f172a;
+  background: #f4f8f2;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border: 2px solid #f8fafc;
+  border-radius: 999px;
+  background: #94a3b8;
+}
+
+::-webkit-scrollbar-track {
+  background: #f8fafc;
 }
 

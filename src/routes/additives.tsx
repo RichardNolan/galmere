@@ -1,6 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { useMemo, useState } from "react";
+import { Badge } from "#/components/ui/badge";
+import { Button } from "#/components/ui/button";
+import { Card, CardContent } from "#/components/ui/card";
+import { Separator } from "#/components/ui/separator";
 
 type AdditiveRecord = {
   policy_item_id: string | number;
@@ -94,14 +98,10 @@ function RouteComponent() {
   }, [eCodeStartsWith, items, onlyWithReference, query, selectedType, sortBy]);
 
   return (
-    <main className="relative overflow-hidden bg-[radial-gradient(circle_at_top_right,#fef3c7_0%,#fff7ed_35%,#ffffff_75%)] px-4 py-10 sm:px-6 lg:px-10">
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(115deg,rgba(251,146,60,0.12),rgba(16,185,129,0.08)_50%,rgba(6,182,212,0.08))]" />
-
-      <div className="relative mx-auto max-w-7xl space-y-7">
-        <header className="rounded-2xl border border-orange-200/70 bg-white/90 p-6 shadow-[0_22px_70px_-35px_rgba(194,65,12,0.45)] backdrop-blur">
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-orange-700">
-            EU Data Lake
-          </p>
+    <main className="mx-auto max-w-7xl space-y-7">
+        <Card className="rounded-2xl border-orange-200/70 bg-white/90 shadow-[0_22px_70px_-35px_rgba(194,65,12,0.45)] backdrop-blur">
+          <CardContent className="p-5 sm:p-6">
+          <Badge variant="accent" className="tracking-[0.24em]">EU Data Lake</Badge>
           <h1 className="mt-2 text-3xl font-black leading-tight text-zinc-900 sm:text-4xl">
             Food Additives Explorer
           </h1>
@@ -109,9 +109,11 @@ function RouteComponent() {
             Browse and inspect food additives in a focused catalog view. Filter by type, search by
             name or E-code, and jump to the official reference.
           </p>
-        </header>
+          </CardContent>
+        </Card>
 
-        <section className="rounded-2xl border border-zinc-200 bg-white/95 p-5 shadow-xl shadow-zinc-200/70 backdrop-blur sm:p-6">
+        <Card className="rounded-2xl border-zinc-200 bg-white/95 shadow-xl shadow-zinc-200/70 backdrop-blur">
+          <CardContent className="p-4 sm:p-5">
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
             <label className="xl:col-span-2">
               <span className="mb-1 block text-xs font-semibold uppercase tracking-wide text-zinc-600">
@@ -170,7 +172,8 @@ function RouteComponent() {
             </label>
           </div>
 
-          <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-zinc-100 pt-4">
+          <Separator className="my-4" />
+          <div className="flex flex-wrap items-center justify-between gap-3">
             <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm text-zinc-700">
               <input
                 type="checkbox"
@@ -185,23 +188,24 @@ function RouteComponent() {
               Showing {filteredItems.length} of {items.length}
             </p>
           </div>
-        </section>
+          </CardContent>
+        </Card>
 
-        <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {filteredItems.map((additive) => (
-            <article
+            <Card
               key={additive.policy_item_id}
-              className="group flex h-full flex-col rounded-2xl border border-orange-100 bg-white p-5 shadow-lg shadow-orange-100/40 transition duration-200 hover:-translate-y-0.5 hover:border-orange-300 hover:shadow-xl hover:shadow-orange-200/40"
+              className="group flex h-full flex-col border-orange-100 p-4 shadow-md shadow-orange-100/30 transition duration-200 hover:-translate-y-0.5 hover:border-orange-300 hover:shadow-lg hover:shadow-orange-200/40"
             >
-              <div className="mb-3 inline-flex w-fit rounded-full border border-orange-200 bg-orange-50 px-2.5 py-1 text-xs font-semibold uppercase tracking-wider text-orange-700">
+              <Badge variant="accent" className="mb-2 w-fit tracking-[0.12em]">
                 {additive.additive_e_code || "No E-code"}
-              </div>
+              </Badge>
 
-              <h2 className="line-clamp-2 text-lg font-bold leading-tight text-zinc-900">
+              <h2 className="line-clamp-2 text-base font-bold leading-tight text-zinc-900">
                 {additive.additive_name || "Unknown additive"}
               </h2>
 
-              <p className="mt-2 text-sm text-zinc-700">
+              <p className="mt-1.5 text-sm text-zinc-700">
                 <span className="font-semibold text-zinc-900">Type:</span>{" "}
                 {additive.additive_type || "Unknown"}
               </p>
@@ -211,31 +215,26 @@ function RouteComponent() {
                 {additive.additive_group || "Not specified"}
               </p>
 
-              <div className="mt-auto pt-5">
+              <div className="mt-auto flex flex-wrap gap-2 pt-4">
                 {additive.fip_url ? (
-                  <a
-                    href={additive.fip_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center rounded-lg bg-zinc-900 px-3 py-2 text-sm font-medium text-white transition group-hover:bg-orange-600"
-                  >
-                    Open reference
-                  </a>
+                  <Button asChild variant="outline" size="sm" className="border-zinc-300 bg-white text-zinc-800 group-hover:border-orange-300">
+                    <a href={additive.fip_url} target="_blank" rel="noopener noreferrer">
+                      Open reference
+                    </a>
+                  </Button>
                 ) : (
-                  <span className="inline-flex items-center rounded-lg bg-zinc-100 px-3 py-2 text-sm font-medium text-zinc-500">
+                  <span className="inline-flex items-center rounded-lg bg-zinc-100 px-2.5 py-1.5 text-xs font-medium text-zinc-500">
                     No reference link
                   </span>
                 )}
 
-                <Link
-                  to="/additives/$id"
-                  params={{ id: String(additive.policy_item_id) }}
-                  className="inline-flex items-center rounded-lg bg-zinc-900 px-3 py-2 text-sm font-medium text-white transition group-hover:bg-orange-600"
-                >
-                  Details
-                </Link>
+                <Button asChild size="sm" className="bg-zinc-900 text-white group-hover:bg-orange-600">
+                  <Link to="/additives/$id" params={{ id: String(additive.policy_item_id) }}>
+                    Details
+                  </Link>
+                </Button>
               </div>
-            </article>
+            </Card>
           ))}
         </section>
 
@@ -244,7 +243,6 @@ function RouteComponent() {
             No additives matched your filters. Try clearing one or more filter fields.
           </div>
         ) : null}
-      </div>
     </main>
   );
 }
