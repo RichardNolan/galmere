@@ -9,12 +9,54 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SavedProductsRouteImport } from './routes/saved-products'
+import { Route as ProcessHaccpRouteImport } from './routes/process-haccp'
+import { Route as PackagingRouteImport } from './routes/packaging'
+import { Route as NutritionRouteImport } from './routes/nutrition'
+import { Route as LabelingRouteImport } from './routes/labeling'
+import { Route as LabAverageRouteImport } from './routes/lab-average'
+import { Route as IngredientsClaimsRouteImport } from './routes/ingredients-claims'
 import { Route as DocumentsRouteImport } from './routes/documents'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SignUpSplatRouteImport } from './routes/sign-up.$'
 import { Route as SignInSplatRouteImport } from './routes/sign-in.$'
 
+const SavedProductsRoute = SavedProductsRouteImport.update({
+  id: '/saved-products',
+  path: '/saved-products',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProcessHaccpRoute = ProcessHaccpRouteImport.update({
+  id: '/process-haccp',
+  path: '/process-haccp',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PackagingRoute = PackagingRouteImport.update({
+  id: '/packaging',
+  path: '/packaging',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NutritionRoute = NutritionRouteImport.update({
+  id: '/nutrition',
+  path: '/nutrition',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LabelingRoute = LabelingRouteImport.update({
+  id: '/labeling',
+  path: '/labeling',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LabAverageRoute = LabAverageRouteImport.update({
+  id: '/lab-average',
+  path: '/lab-average',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IngredientsClaimsRoute = IngredientsClaimsRouteImport.update({
+  id: '/ingredients-claims',
+  path: '/ingredients-claims',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DocumentsRoute = DocumentsRouteImport.update({
   id: '/documents',
   path: '/documents',
@@ -45,6 +87,13 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/documents': typeof DocumentsRoute
+  '/ingredients-claims': typeof IngredientsClaimsRoute
+  '/lab-average': typeof LabAverageRoute
+  '/labeling': typeof LabelingRoute
+  '/nutrition': typeof NutritionRoute
+  '/packaging': typeof PackagingRoute
+  '/process-haccp': typeof ProcessHaccpRoute
+  '/saved-products': typeof SavedProductsRoute
   '/sign-in/$': typeof SignInSplatRoute
   '/sign-up/$': typeof SignUpSplatRoute
 }
@@ -52,6 +101,13 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/documents': typeof DocumentsRoute
+  '/ingredients-claims': typeof IngredientsClaimsRoute
+  '/lab-average': typeof LabAverageRoute
+  '/labeling': typeof LabelingRoute
+  '/nutrition': typeof NutritionRoute
+  '/packaging': typeof PackagingRoute
+  '/process-haccp': typeof ProcessHaccpRoute
+  '/saved-products': typeof SavedProductsRoute
   '/sign-in/$': typeof SignInSplatRoute
   '/sign-up/$': typeof SignUpSplatRoute
 }
@@ -60,19 +116,57 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/documents': typeof DocumentsRoute
+  '/ingredients-claims': typeof IngredientsClaimsRoute
+  '/lab-average': typeof LabAverageRoute
+  '/labeling': typeof LabelingRoute
+  '/nutrition': typeof NutritionRoute
+  '/packaging': typeof PackagingRoute
+  '/process-haccp': typeof ProcessHaccpRoute
+  '/saved-products': typeof SavedProductsRoute
   '/sign-in/$': typeof SignInSplatRoute
   '/sign-up/$': typeof SignUpSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/documents' | '/sign-in/$' | '/sign-up/$'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/documents'
+    | '/ingredients-claims'
+    | '/lab-average'
+    | '/labeling'
+    | '/nutrition'
+    | '/packaging'
+    | '/process-haccp'
+    | '/saved-products'
+    | '/sign-in/$'
+    | '/sign-up/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/documents' | '/sign-in/$' | '/sign-up/$'
+  to:
+    | '/'
+    | '/dashboard'
+    | '/documents'
+    | '/ingredients-claims'
+    | '/lab-average'
+    | '/labeling'
+    | '/nutrition'
+    | '/packaging'
+    | '/process-haccp'
+    | '/saved-products'
+    | '/sign-in/$'
+    | '/sign-up/$'
   id:
     | '__root__'
     | '/'
     | '/dashboard'
     | '/documents'
+    | '/ingredients-claims'
+    | '/lab-average'
+    | '/labeling'
+    | '/nutrition'
+    | '/packaging'
+    | '/process-haccp'
+    | '/saved-products'
     | '/sign-in/$'
     | '/sign-up/$'
   fileRoutesById: FileRoutesById
@@ -81,12 +175,68 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRoute: typeof DashboardRoute
   DocumentsRoute: typeof DocumentsRoute
+  IngredientsClaimsRoute: typeof IngredientsClaimsRoute
+  LabAverageRoute: typeof LabAverageRoute
+  LabelingRoute: typeof LabelingRoute
+  NutritionRoute: typeof NutritionRoute
+  PackagingRoute: typeof PackagingRoute
+  ProcessHaccpRoute: typeof ProcessHaccpRoute
+  SavedProductsRoute: typeof SavedProductsRoute
   SignInSplatRoute: typeof SignInSplatRoute
   SignUpSplatRoute: typeof SignUpSplatRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/saved-products': {
+      id: '/saved-products'
+      path: '/saved-products'
+      fullPath: '/saved-products'
+      preLoaderRoute: typeof SavedProductsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/process-haccp': {
+      id: '/process-haccp'
+      path: '/process-haccp'
+      fullPath: '/process-haccp'
+      preLoaderRoute: typeof ProcessHaccpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/packaging': {
+      id: '/packaging'
+      path: '/packaging'
+      fullPath: '/packaging'
+      preLoaderRoute: typeof PackagingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/nutrition': {
+      id: '/nutrition'
+      path: '/nutrition'
+      fullPath: '/nutrition'
+      preLoaderRoute: typeof NutritionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/labeling': {
+      id: '/labeling'
+      path: '/labeling'
+      fullPath: '/labeling'
+      preLoaderRoute: typeof LabelingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lab-average': {
+      id: '/lab-average'
+      path: '/lab-average'
+      fullPath: '/lab-average'
+      preLoaderRoute: typeof LabAverageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ingredients-claims': {
+      id: '/ingredients-claims'
+      path: '/ingredients-claims'
+      fullPath: '/ingredients-claims'
+      preLoaderRoute: typeof IngredientsClaimsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/documents': {
       id: '/documents'
       path: '/documents'
@@ -129,6 +279,13 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRoute: DashboardRoute,
   DocumentsRoute: DocumentsRoute,
+  IngredientsClaimsRoute: IngredientsClaimsRoute,
+  LabAverageRoute: LabAverageRoute,
+  LabelingRoute: LabelingRoute,
+  NutritionRoute: NutritionRoute,
+  PackagingRoute: PackagingRoute,
+  ProcessHaccpRoute: ProcessHaccpRoute,
+  SavedProductsRoute: SavedProductsRoute,
   SignInSplatRoute: SignInSplatRoute,
   SignUpSplatRoute: SignUpSplatRoute,
 }
