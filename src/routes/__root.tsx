@@ -7,6 +7,7 @@ import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
 
 import appCss from "../styles.css?url";
 
+import Footer from "#/components/footer";
 import Header from "#/components/header";
 import type { QueryClient } from "@tanstack/react-query";
 
@@ -25,7 +26,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         content: "width=device-width, initial-scale=1",
       },
       {
-        title: "TanStack Start Starter",
+        title: "Galmere",
       },
     ],
     links: [
@@ -50,6 +51,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             <Header />
           </Show>
           {children}
+          <Footer />
         </ClerkProvider>
         <TanStackDevtools
           config={{

@@ -1,4 +1,5 @@
-import { Show, SignOutButton, UserButton } from "@clerk/tanstack-react-start";
+import WelcomeUser from "#/components/welcome-user";
+import { Show } from "@clerk/tanstack-react-start";
 import { createFileRoute, Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({ component: Home });
@@ -9,8 +10,7 @@ function Home() {
       <h1 className="text-4xl font-bold">Welcome to Galmere Portal</h1>
 
       <Show when="signed-in">
-        <UserButton />
-        <SignOutButton />
+        <WelcomeUser />
       </Show>
       <Show when="signed-out">
         <div className="text-sm text-slate-500">
