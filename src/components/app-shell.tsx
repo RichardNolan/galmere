@@ -11,7 +11,7 @@ import {
   SheetTrigger,
 } from "#/components/ui/sheet";
 import { Show, UserButton } from "@clerk/tanstack-react-start";
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, linkOptions, useRouterState } from "@tanstack/react-router";
 import {
   Beaker,
   BookOpenText,
@@ -39,19 +39,20 @@ type NavItem = {
   icon: React.ComponentType<{ className?: string }>;
 };
 
-const navItems: NavItem[] = [
+const navItems: NavItem[] = linkOptions([
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { to: "/documents", label: "Documents", icon: FileArchive },
-  { to: "/saved-products", label: "Saved Products", icon: Package },
+  { to: "/products", label: "Products", icon: Package },
   { to: "/additives", label: "Food Additives", icon: Beaker },
   { to: "/flavourings", label: "Flavourings", icon: FlaskConical },
+  { to: "/allergens", label: "Allergens", icon: SearchCheck },
   { to: "/ingredients-claims", label: "Ingredient Claims", icon: SearchCheck },
   { to: "/lab-average", label: "Lab Average", icon: TestTube2 },
   { to: "/nutrition", label: "Nutrition", icon: Scale },
   { to: "/labeling", label: "Labeling", icon: BookOpenText },
   { to: "/packaging", label: "Packaging", icon: ClipboardCheck },
   { to: "/process-haccp", label: "Process HACCP", icon: ShieldCheck },
-];
+]);
 
 const topLevelLinks = [
   { label: "Partners", to: "/documents" },

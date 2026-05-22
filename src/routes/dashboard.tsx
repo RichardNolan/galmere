@@ -68,7 +68,7 @@ function RouteComponent() {
               Flavourings
             </Link>
             <Link
-              to="/saved-products"
+              to="/products"
               className="rounded-lg border border-slate-300 px-3 py-2 text-slate-700 hover:bg-slate-50"
             >
               Saved products

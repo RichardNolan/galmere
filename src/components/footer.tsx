@@ -22,7 +22,7 @@ export default function Footer() {
           <Link to="/documents" className="hover:text-slate-900 hover:underline">
             Documents
           </Link>
-          <Link to="/saved-products" className="hover:text-slate-900 hover:underline">
+          <Link to="/products" className="hover:text-slate-900 hover:underline">
             Products
           </Link>
         </nav>

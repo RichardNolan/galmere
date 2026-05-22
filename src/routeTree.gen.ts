@@ -9,7 +9,6 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SavedProductsRouteImport } from './routes/saved-products'
 import { Route as ProcessHaccpRouteImport } from './routes/process-haccp'
 import { Route as PackagingRouteImport } from './routes/packaging'
 import { Route as NutritionRouteImport } from './routes/nutrition'
@@ -19,17 +18,16 @@ import { Route as IngredientsClaimsRouteImport } from './routes/ingredients-clai
 import { Route as FlavouringsRouteImport } from './routes/flavourings'
 import { Route as DocumentsRouteImport } from './routes/documents'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as AllergensRouteImport } from './routes/allergens'
 import { Route as AdditivesRouteImport } from './routes/additives'
+import { Route as ProductsRouteRouteImport } from './routes/products.route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProductsIndexRouteImport } from './routes/products.index'
 import { Route as SignUpSplatRouteImport } from './routes/sign-up.$'
 import { Route as SignInSplatRouteImport } from './routes/sign-in.$'
+import { Route as ProductsIdRouteImport } from './routes/products.$id'
 import { Route as AdditivesIdRouteImport } from './routes/additives_.$id'
 
-const SavedProductsRoute = SavedProductsRouteImport.update({
-  id: '/saved-products',
-  path: '/saved-products',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ProcessHaccpRoute = ProcessHaccpRouteImport.update({
   id: '/process-haccp',
   path: '/process-haccp',
@@ -75,15 +73,30 @@ const DashboardRoute = DashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AllergensRoute = AllergensRouteImport.update({
+  id: '/allergens',
+  path: '/allergens',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdditivesRoute = AdditivesRouteImport.update({
   id: '/additives',
   path: '/additives',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductsRouteRoute = ProductsRouteRouteImport.update({
+  id: '/products',
+  path: '/products',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const ProductsIndexRoute = ProductsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ProductsRouteRoute,
 } as any)
 const SignUpSplatRoute = SignUpSplatRouteImport.update({
   id: '/sign-up/$',
@@ -95,6 +108,11 @@ const SignInSplatRoute = SignInSplatRouteImport.update({
   path: '/sign-in/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProductsIdRoute = ProductsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ProductsRouteRoute,
+} as any)
 const AdditivesIdRoute = AdditivesIdRouteImport.update({
   id: '/additives_/$id',
   path: '/additives/$id',
@@ -103,7 +121,9 @@ const AdditivesIdRoute = AdditivesIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/products': typeof ProductsRouteRouteWithChildren
   '/additives': typeof AdditivesRoute
+  '/allergens': typeof AllergensRoute
   '/dashboard': typeof DashboardRoute
   '/documents': typeof DocumentsRoute
   '/flavourings': typeof FlavouringsRoute
@@ -113,14 +133,16 @@ export interface FileRoutesByFullPath {
   '/nutrition': typeof NutritionRoute
   '/packaging': typeof PackagingRoute
   '/process-haccp': typeof ProcessHaccpRoute
-  '/saved-products': typeof SavedProductsRoute
   '/additives/$id': typeof AdditivesIdRoute
+  '/products/$id': typeof ProductsIdRoute
   '/sign-in/$': typeof SignInSplatRoute
   '/sign-up/$': typeof SignUpSplatRoute
+  '/products/': typeof ProductsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/additives': typeof AdditivesRoute
+  '/allergens': typeof AllergensRoute
   '/dashboard': typeof DashboardRoute
   '/documents': typeof DocumentsRoute
   '/flavourings': typeof FlavouringsRoute
@@ -130,15 +152,18 @@ export interface FileRoutesByTo {
   '/nutrition': typeof NutritionRoute
   '/packaging': typeof PackagingRoute
   '/process-haccp': typeof ProcessHaccpRoute
-  '/saved-products': typeof SavedProductsRoute
   '/additives/$id': typeof AdditivesIdRoute
+  '/products/$id': typeof ProductsIdRoute
   '/sign-in/$': typeof SignInSplatRoute
   '/sign-up/$': typeof SignUpSplatRoute
+  '/products': typeof ProductsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/products': typeof ProductsRouteRouteWithChildren
   '/additives': typeof AdditivesRoute
+  '/allergens': typeof AllergensRoute
   '/dashboard': typeof DashboardRoute
   '/documents': typeof DocumentsRoute
   '/flavourings': typeof FlavouringsRoute
@@ -148,16 +173,19 @@ export interface FileRoutesById {
   '/nutrition': typeof NutritionRoute
   '/packaging': typeof PackagingRoute
   '/process-haccp': typeof ProcessHaccpRoute
-  '/saved-products': typeof SavedProductsRoute
   '/additives_/$id': typeof AdditivesIdRoute
+  '/products/$id': typeof ProductsIdRoute
   '/sign-in/$': typeof SignInSplatRoute
   '/sign-up/$': typeof SignUpSplatRoute
+  '/products/': typeof ProductsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/products'
     | '/additives'
+    | '/allergens'
     | '/dashboard'
     | '/documents'
     | '/flavourings'
@@ -167,14 +195,16 @@ export interface FileRouteTypes {
     | '/nutrition'
     | '/packaging'
     | '/process-haccp'
-    | '/saved-products'
     | '/additives/$id'
+    | '/products/$id'
     | '/sign-in/$'
     | '/sign-up/$'
+    | '/products/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/additives'
+    | '/allergens'
     | '/dashboard'
     | '/documents'
     | '/flavourings'
@@ -184,14 +214,17 @@ export interface FileRouteTypes {
     | '/nutrition'
     | '/packaging'
     | '/process-haccp'
-    | '/saved-products'
     | '/additives/$id'
+    | '/products/$id'
     | '/sign-in/$'
     | '/sign-up/$'
+    | '/products'
   id:
     | '__root__'
     | '/'
+    | '/products'
     | '/additives'
+    | '/allergens'
     | '/dashboard'
     | '/documents'
     | '/flavourings'
@@ -201,15 +234,18 @@ export interface FileRouteTypes {
     | '/nutrition'
     | '/packaging'
     | '/process-haccp'
-    | '/saved-products'
     | '/additives_/$id'
+    | '/products/$id'
     | '/sign-in/$'
     | '/sign-up/$'
+    | '/products/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ProductsRouteRoute: typeof ProductsRouteRouteWithChildren
   AdditivesRoute: typeof AdditivesRoute
+  AllergensRoute: typeof AllergensRoute
   DashboardRoute: typeof DashboardRoute
   DocumentsRoute: typeof DocumentsRoute
   FlavouringsRoute: typeof FlavouringsRoute
@@ -219,7 +255,6 @@ export interface RootRouteChildren {
   NutritionRoute: typeof NutritionRoute
   PackagingRoute: typeof PackagingRoute
   ProcessHaccpRoute: typeof ProcessHaccpRoute
-  SavedProductsRoute: typeof SavedProductsRoute
   AdditivesIdRoute: typeof AdditivesIdRoute
   SignInSplatRoute: typeof SignInSplatRoute
   SignUpSplatRoute: typeof SignUpSplatRoute
@@ -227,13 +262,6 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/saved-products': {
-      id: '/saved-products'
-      path: '/saved-products'
-      fullPath: '/saved-products'
-      preLoaderRoute: typeof SavedProductsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/process-haccp': {
       id: '/process-haccp'
       path: '/process-haccp'
@@ -297,11 +325,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/allergens': {
+      id: '/allergens'
+      path: '/allergens'
+      fullPath: '/allergens'
+      preLoaderRoute: typeof AllergensRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/additives': {
       id: '/additives'
       path: '/additives'
       fullPath: '/additives'
       preLoaderRoute: typeof AdditivesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/products': {
+      id: '/products'
+      path: '/products'
+      fullPath: '/products'
+      preLoaderRoute: typeof ProductsRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -310,6 +352,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/products/': {
+      id: '/products/'
+      path: '/'
+      fullPath: '/products/'
+      preLoaderRoute: typeof ProductsIndexRouteImport
+      parentRoute: typeof ProductsRouteRoute
     }
     '/sign-up/$': {
       id: '/sign-up/$'
@@ -325,6 +374,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignInSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/products/$id': {
+      id: '/products/$id'
+      path: '/$id'
+      fullPath: '/products/$id'
+      preLoaderRoute: typeof ProductsIdRouteImport
+      parentRoute: typeof ProductsRouteRoute
+    }
     '/additives_/$id': {
       id: '/additives_/$id'
       path: '/additives/$id'
@@ -335,9 +391,25 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface ProductsRouteRouteChildren {
+  ProductsIdRoute: typeof ProductsIdRoute
+  ProductsIndexRoute: typeof ProductsIndexRoute
+}
+
+const ProductsRouteRouteChildren: ProductsRouteRouteChildren = {
+  ProductsIdRoute: ProductsIdRoute,
+  ProductsIndexRoute: ProductsIndexRoute,
+}
+
+const ProductsRouteRouteWithChildren = ProductsRouteRoute._addFileChildren(
+  ProductsRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ProductsRouteRoute: ProductsRouteRouteWithChildren,
   AdditivesRoute: AdditivesRoute,
+  AllergensRoute: AllergensRoute,
   DashboardRoute: DashboardRoute,
   DocumentsRoute: DocumentsRoute,
   FlavouringsRoute: FlavouringsRoute,
@@ -347,7 +419,6 @@ const rootRouteChildren: RootRouteChildren = {
   NutritionRoute: NutritionRoute,
   PackagingRoute: PackagingRoute,
   ProcessHaccpRoute: ProcessHaccpRoute,
-  SavedProductsRoute: SavedProductsRoute,
   AdditivesIdRoute: AdditivesIdRoute,
   SignInSplatRoute: SignInSplatRoute,
   SignUpSplatRoute: SignUpSplatRoute,

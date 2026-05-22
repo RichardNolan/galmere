@@ -19,7 +19,7 @@ export default function Header() {
           <Link to="/documents" className="text-slate-700 hover:text-slate-900">
             Documents
           </Link>
-          <Link to="/saved-products" className="text-slate-700 hover:text-slate-900">
+          <Link to="/products" className="text-slate-700 hover:text-slate-900">
             Products
           </Link>
           <Button variant="outline" size="sm" asChild>
