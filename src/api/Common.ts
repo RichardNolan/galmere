@@ -26,6 +26,9 @@ export type TypeBrand = {
 export type TypeNutrition = {
   id: number;
   created_at: string;
+  product: string;
+  rejected: boolean;
+  source: string | null;
   carbs: number;
   fat: number;
   fibre: number;

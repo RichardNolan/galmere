@@ -1,6 +1,7 @@
 import type { Product as ProductType } from "#/api/Products";
 import { Brand } from "#/components/brand/brand";
 import { CommentsPanel } from "#/components/comments";
+import { NutritionPanel } from "#/components/nutrition-panel";
 import { Product } from "#/components/product";
 import { requireAuth } from "#/lib/require-auth";
 import { supabase } from "#/lib/supabase";
@@ -34,6 +35,7 @@ function RouteComponent() {
     <>
       <Brand brand={product.brand} />
       <Product key={product.id} product={product as ProductType} />
+      <NutritionPanel product={product as ProductType} />
       <CommentsPanel type="product" id={product.id} />
     </>
   );

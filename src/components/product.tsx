@@ -23,35 +23,7 @@ type ProductFormValues = {
   market: string;
   approvalStage: string;
   completionPercent: number;
-  nutritionId: number | null;
-  nutrition: {
-    carbs: number;
-    fat: number;
-    fibre: number;
-    kcal: number;
-    kj: number;
-    protein: number;
-    salt: number;
-    sat: number;
-    sugar: number;
-  };
 };
-
-const nutritionFieldDefs: Array<{
-  name: keyof ProductFormValues["nutrition"];
-  label: string;
-  step?: string;
-}> = [
-  { name: "carbs", label: "Carbs" },
-  { name: "fat", label: "Fat" },
-  { name: "fibre", label: "Fibre" },
-  { name: "kcal", label: "Kcal", step: "1" },
-  { name: "kj", label: "Kj", step: "1" },
-  { name: "protein", label: "Protein" },
-  { name: "salt", label: "Salt" },
-  { name: "sat", label: "Sat" },
-  { name: "sugar", label: "Sugar" },
-];
 
 function buildDefaultValues(product: ProductType): ProductFormValues {
   return {
@@ -70,18 +42,6 @@ function buildDefaultValues(product: ProductType): ProductFormValues {
     market: product.market,
     approvalStage: product.approvalStage,
     completionPercent: product.completionPercent,
-    nutritionId: product.nutrition?.id ?? null,
-    nutrition: {
-      carbs: product.nutrition?.carbs ?? 0,
-      fat: product.nutrition?.fat ?? 0,
-      fibre: product.nutrition?.fibre ?? 0,
-      kcal: product.nutrition?.kcal ?? 0,
-      kj: product.nutrition?.kj ?? 0,
-      protein: product.nutrition?.protein ?? 0,
-      salt: product.nutrition?.salt ?? 0,
-      sat: product.nutrition?.sat ?? 0,
-      sugar: product.nutrition?.sugar ?? 0,
-    },
   };
 }
 
@@ -93,7 +53,7 @@ export const Product = ({ product }: ProductProps) => {
     onSubmit: async ({ value }) => {
       setStatusMessage(null);
 
-      const { nutrition, nutritionId, id, created_at: _createdAt, ...productPayload } = value;
+      const { id, created_at: _createdAt, ...productPayload } = value;
 
       const { error: productError } = await supabase
         .from("products")
@@ -103,18 +63,6 @@ export const Product = ({ product }: ProductProps) => {
       if (productError) {
         setStatusMessage(`Failed to update product: ${productError.message}`);
         return;
-      }
-
-      if (nutritionId) {
-        const { error: nutritionError } = await supabase
-          .from("nutrition")
-          .update(nutrition)
-          .eq("id", nutritionId);
-
-        if (nutritionError) {
-          setStatusMessage(`Product updated, but nutrition failed: ${nutritionError.message}`);
-          return;
-        }
       }
 
       setStatusMessage("Product updated successfully");
@@ -172,23 +120,6 @@ export const Product = ({ product }: ProductProps) => {
           {(field) => <field.NumberField label="Completion Percent" />}
         </form.AppField>
       </div>
-
-      {Boolean(product.nutrition) ? (
-        <div className="space-y-2 rounded-lg border border-slate-200 bg-slate-50 p-3">
-          <p className="text-sm font-medium text-slate-900">Nutrition (editable)</p>
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-            {nutritionFieldDefs.map((item) => (
-              <form.AppField key={item.name} name={`nutrition.${item.name}` as const}>
-                {(field) => <field.NumberField label={item.label} step={item.step ?? "0.01"} />}
-              </form.AppField>
-            ))}
-          </div>
-        </div>
-      ) : (
-        <div className="rounded-lg border border-dashed border-slate-300 bg-slate-50 p-3 text-sm text-slate-600">
-          No nutrition record linked.
-        </div>
-      )}
 
       <div className="flex items-center gap-3">
         <form.AppForm>
