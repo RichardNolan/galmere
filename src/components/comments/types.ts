@@ -12,7 +12,7 @@ export type Comment = {
   nutrition: number | null;
   brand: number | null;
   product: string | null;
-  comment_id: number;
+  comment_id: number | null;
 };
 
 export type CommentTargetType = "nutrition" | "brand" | "product";
@@ -26,6 +26,7 @@ export type NewCommentPayload = {
   nutrition: number | null;
   brand: number | null;
   product: string | null;
+  comment_id: number | null;
 };
 
 export type ResolveCommentPayload = {
