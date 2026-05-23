@@ -1,4 +1,5 @@
 import type { Product as ProductType } from "#/api/Products";
+import { NutritionMismatchAlert } from "#/components/nutrition-mismatch-alert";
 import { useProductNutritionSummary } from "#/hooks/use-product-nutrition";
 import React from "react";
 
@@ -22,21 +23,6 @@ const rowDefs: RowDefinition[] = [
   { label: "Protein", field: "protein", withUnit: true },
   { label: "Salt", field: "salt", withUnit: true },
 ];
-
-const mismatchLabelByField: Record<
-  keyof ReturnType<typeof useProductNutritionSummary>["average"],
-  string
-> = {
-  kj: "Energy (kJ)",
-  kcal: "Energy (kcal)",
-  fat: "Fat",
-  sat: "Saturates",
-  carbs: "Carbohydrate",
-  sugar: "Sugars",
-  fibre: "Fibre",
-  protein: "Protein",
-  salt: "Salt",
-};
 
 function roundForDisplay(value: number, places = 1): number {
   return Number(value.toFixed(places));
@@ -82,40 +68,11 @@ export function NutritionDeclarationPanel({ product }: NutritionDeclarationPanel
     [effectiveNutrition, servingSizeMultiplier],
   );
 
-  const mismatchedLabels = React.useMemo(() => {
-    if (!overrideValues) {
-      return [];
-    }
-
-    const fields = Object.keys(mismatchLabelByField) as Array<keyof typeof mismatchLabelByField>;
-
-    return fields
-      .filter((field) => Math.abs(overrideValues[field] - average[field]) > 0.01)
-      .map((field) => mismatchLabelByField[field]);
-  }, [average, overrideValues]);
-
   return (
     <section className="space-y-5 rounded-3xl border border-slate-200 bg-slate-50 p-5 shadow-sm">
       <h3 className="text-4xl font-semibold text-slate-900">Nutrition Declaration</h3>
 
-      {mismatchedLabels.length > 0 ? (
-        <div className="rounded-3xl border border-amber-300 bg-amber-50 p-5 text-amber-950">
-          <div className="flex items-start gap-4">
-            <div className="mt-1 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-amber-200 text-xl font-bold text-amber-900">
-              !
-            </div>
-            <div className="space-y-1">
-              <p className="text-2xl font-semibold">
-                Nutrition values no longer match imported lab certificate averages.
-              </p>
-              <p className="text-lg">
-                Mismatch detected in {mismatchedLabels.join(", ")}. Review values or attach updated
-                lab certificates.
-              </p>
-            </div>
-          </div>
-        </div>
-      ) : null}
+      <NutritionMismatchAlert average={average} overrideValues={overrideValues} />
 
       <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white">
         <table className="min-w-full border-collapse text-left">
