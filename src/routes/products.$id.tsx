@@ -1,4 +1,5 @@
 import type { Product as ProductType } from "#/api/Products";
+import { Brand } from "#/components/brand/brand";
 import { CommentsPanel } from "#/components/comments";
 import { Product } from "#/components/product";
 import { requireAuth } from "#/lib/require-auth";
@@ -31,6 +32,7 @@ function RouteComponent() {
   const { product } = Route.useLoaderData();
   return (
     <>
+      <Brand brand={product.brand} />
       <Product key={product.id} product={product as ProductType} />
       <CommentsPanel type="product" id={product.id} />
     </>

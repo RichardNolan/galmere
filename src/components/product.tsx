@@ -173,17 +173,6 @@ export const Product = ({ product }: ProductProps) => {
         </form.AppField>
       </div>
 
-      <div className="rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700">
-        <p className="font-medium text-slate-900">Brand (read-only)</p>
-        {product.brand ? (
-          <p className="mt-1">
-            {product.brand.brandName} ({product.brand.brandCode})
-          </p>
-        ) : (
-          <p className="mt-1 text-slate-500">No brand linked</p>
-        )}
-      </div>
-
       {Boolean(product.nutrition) ? (
         <div className="space-y-2 rounded-lg border border-slate-200 bg-slate-50 p-3">
           <p className="text-sm font-medium text-slate-900">Nutrition (editable)</p>
