@@ -2,64 +2,15 @@ import type { Product as ProductType } from "#/api/Products";
 import { formatPercent } from "#/components/ingredient-declaration";
 import { Button } from "#/components/ui/button";
 import { supabase } from "#/lib/supabase";
+import {
+  type EditableIngredientRowInput as EditableIngredientRow,
+  validateRecipeRows,
+} from "#/lib/validation/ingredients";
 import React from "react";
-import { z } from "zod";
 
 type IngredientsSectionProps = {
   product: ProductType;
 };
-
-type EditableIngredientRow = {
-  id: string;
-  raw_material_id: string;
-  sequence_no: number;
-  percent_of_recipe: string;
-  declare: boolean;
-  quided: boolean;
-  raw_material_code: string;
-  raw_material_name: string;
-};
-
-const editableIngredientRowSchema = z.object({
-  id: z.string().min(1),
-  raw_material_id: z.string().min(1, "One or more rows are missing a linked raw material."),
-  sequence_no: z.number().int().min(1, "Sequence numbers must be 1 or greater."),
-  percent_of_recipe: z
-    .string()
-    .refine((value) => Number.isFinite(Number(value)), {
-      message: "Percent values must be valid numbers between 0 and 100.",
-    })
-    .transform((value) => Number(value))
-    .refine((value) => value >= 0 && value <= 100, {
-      message: "Percent values must be valid numbers between 0 and 100.",
-    }),
-  declare: z.boolean(),
-  quided: z.boolean(),
-  raw_material_code: z.string(),
-  raw_material_name: z.string(),
-});
-
-const recipeRowsSchema = z.array(editableIngredientRowSchema).superRefine((rows, context) => {
-  if (!rows.length) {
-    return;
-  }
-
-  const sequenceNumbers = rows.map((row) => row.sequence_no);
-  if (new Set(sequenceNumbers).size !== sequenceNumbers.length) {
-    context.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: "Sequence numbers must be unique within a recipe.",
-    });
-  }
-
-  const total = rows.reduce((sum, row) => sum + row.percent_of_recipe, 0);
-  if (Math.abs(total - 100) > 0.5) {
-    context.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: `Total recipe percent must be 100% (+/- 0.5). Current total: ${formatPercent(total)}.`,
-    });
-  }
-});
 
 function buildRowsByRecipe(product: ProductType): Record<string, EditableIngredientRow[]> {
   const recipes = product.product_recipes ?? [];
@@ -82,16 +33,6 @@ function buildRowsByRecipe(product: ProductType): Record<string, EditableIngredi
       return [recipe.id, rows];
     }),
   );
-}
-
-function validateRecipeRows(rows: EditableIngredientRow[]): string[] {
-  const parsed = recipeRowsSchema.safeParse(rows);
-
-  if (parsed.success) {
-    return [];
-  }
-
-  return [...new Set(parsed.error.issues.map((issue) => issue.message))];
 }
 
 export function IngredientsSection({ product }: IngredientsSectionProps) {
