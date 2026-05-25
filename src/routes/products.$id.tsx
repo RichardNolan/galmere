@@ -1,5 +1,6 @@
 import type { Product as ProductType } from "#/api/Products";
 import { Brand } from "#/components/brand/brand";
+import { ClaimsReviewPanel } from "#/components/claims-review-panel";
 import { CommentsPanel } from "#/components/comments";
 import { FrontOfPackTrafficLights } from "#/components/front-of-pack-traffic-lights";
 import { IngredientsPanel } from "#/components/ingredients-panel";
@@ -34,6 +35,63 @@ type FopMessageRow = {
   message_value: string;
 };
 
+type ClaimThresholdRow = {
+  rule_code: string;
+  metric: string;
+  operator: string;
+  threshold_value: number;
+  unit: string;
+  scope: string;
+};
+
+type ClaimMessageRow = {
+  rule_code: string;
+  title_pass: string | null;
+  title_warn: string | null;
+  title_fail: string | null;
+  subtitle_template: string | null;
+  failure_template: string | null;
+  recommended_text: string | null;
+};
+
+type DietaryStatus = "suitable" | "not_suitable" | "unknown";
+
+type DietarySuitabilitySnapshot = {
+  vegetarian?: DietaryStatus;
+  vegan?: DietaryStatus;
+  glutenFree?: DietaryStatus;
+};
+
+type FiveADaySnapshot = {
+  portionsPerServing?: number | null;
+};
+
+function toDietaryStatus(value: unknown): DietaryStatus {
+  const normalized = String(value ?? "")
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, "_");
+
+  if (normalized === "suitable") {
+    return "suitable";
+  }
+
+  if (
+    normalized === "not_suitable" ||
+    normalized === "not-suitable" ||
+    normalized === "unsuitable"
+  ) {
+    return "not_suitable";
+  }
+
+  return "unknown";
+}
+
+function toFiniteNumber(value: unknown): number | null {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
 export const Route = createFileRoute("/products/$id")({
   beforeLoad: async () => await requireAuth(),
   loader: async ({ params: { id } }) => {
@@ -63,6 +121,8 @@ export const Route = createFileRoute("/products/$id")({
     const [
       { data: thresholdRows, error: thresholdError },
       { data: messageRows, error: messageError },
+      { data: claimThresholdRows, error: claimThresholdError },
+      { data: claimMessageRows, error: claimMessageError },
     ] = await Promise.all([
       supabase
         .from("fop_nutrient_thresholds")
@@ -74,6 +134,17 @@ export const Route = createFileRoute("/products/$id")({
         .select("message_key, message_value")
         .eq("policy_version", policyVersion)
         .eq("locale", "en-GB"),
+      supabase
+        .from("claim_rule_thresholds")
+        .select("rule_code, metric, operator, threshold_value, unit, scope")
+        .eq("policy_version", policyVersion)
+        .eq("is_active", true),
+      supabase
+        .from("claim_rule_messages")
+        .select(
+          "rule_code, title_pass, title_warn, title_fail, subtitle_template, failure_template, recommended_text",
+        )
+        .eq("policy_version", policyVersion),
     ]);
 
     const fopPolicyData =
@@ -84,6 +155,77 @@ export const Route = createFileRoute("/products/$id")({
             thresholds: (thresholdRows ?? []) as FopThresholdRow[],
             messages: (messageRows ?? []) as FopMessageRow[],
           };
+
+    const claimPolicyData =
+      claimThresholdError || claimMessageError
+        ? null
+        : {
+            policyVersion,
+            thresholds: (claimThresholdRows ?? []) as ClaimThresholdRow[],
+            messages: (claimMessageRows ?? []) as ClaimMessageRow[],
+          };
+
+    const [
+      { data: dietaryStatusesRow },
+      { data: dietarySnapshotRow },
+      { data: fiveADayRow },
+      { data: fiveADaysRow },
+    ] = await Promise.all([
+      supabase
+        .from("dietary_suitability_statuses")
+        .select("vegetarian, vegan, gluten_free")
+        .eq("product_id", id)
+        .maybeSingle(),
+      supabase
+        .from("dietary_suitability_snapshots")
+        .select("vegetarian_status, vegan_status, gluten_free_status")
+        .eq("product_id", id)
+        .maybeSingle(),
+      supabase
+        .from("fiveaday_snapshot")
+        .select("portions_per_serving")
+        .eq("product_id", id)
+        .maybeSingle(),
+      supabase
+        .from("fiveaday_snapshots")
+        .select("portions_per_serving")
+        .eq("product_id", id)
+        .maybeSingle(),
+    ]);
+
+    const productRecord = product as Record<string, unknown>;
+
+    const dietarySuitability: DietarySuitabilitySnapshot = {
+      vegetarian: toDietaryStatus(
+        dietaryStatusesRow?.vegetarian ??
+          dietarySnapshotRow?.vegetarian_status ??
+          productRecord.vegetarian_status ??
+          productRecord.vegetarian,
+      ),
+      vegan: toDietaryStatus(
+        dietaryStatusesRow?.vegan ??
+          dietarySnapshotRow?.vegan_status ??
+          productRecord.vegan_status ??
+          productRecord.vegan,
+      ),
+      glutenFree: toDietaryStatus(
+        dietaryStatusesRow?.gluten_free ??
+          dietarySnapshotRow?.gluten_free_status ??
+          productRecord.gluten_free_status ??
+          productRecord.gluten_free ??
+          productRecord.glutenFree,
+      ),
+    };
+
+    const fiveADaySnapshot: FiveADaySnapshot = {
+      portionsPerServing:
+        toFiniteNumber(
+          fiveADayRow?.portions_per_serving ??
+            fiveADaysRow?.portions_per_serving ??
+            productRecord.portions_per_serving ??
+            productRecord.fiveaday_portions_per_serving,
+        ) ?? null,
+    };
 
     const recipes = product?.product_recipes ?? [];
     const currentRecipe =
@@ -104,13 +246,27 @@ export const Route = createFileRoute("/products/$id")({
       }
     }
 
-    return { product: product ?? [], flatIngredients, fopPolicyData };
+    return {
+      product: product ?? [],
+      flatIngredients,
+      fopPolicyData,
+      claimPolicyData,
+      dietarySuitability,
+      fiveADaySnapshot,
+    };
   },
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const { product, flatIngredients, fopPolicyData } = Route.useLoaderData();
+  const {
+    product,
+    flatIngredients,
+    fopPolicyData,
+    claimPolicyData,
+    dietarySuitability,
+    fiveADaySnapshot,
+  } = Route.useLoaderData();
   return (
     <>
       <Brand brand={product.brand} />
@@ -118,6 +274,12 @@ function RouteComponent() {
       <IngredientsPanel product={product as ProductType} flatIngredients={flatIngredients} />
       <NutritionDeclarationPanel product={product as ProductType} />
       <FrontOfPackTrafficLights product={product as ProductType} fopPolicyData={fopPolicyData} />
+      <ClaimsReviewPanel
+        product={product as ProductType}
+        claimPolicyData={claimPolicyData}
+        dietarySuitability={dietarySuitability}
+        fiveADaySnapshot={fiveADaySnapshot}
+      />
       <NutritionPanel product={product as ProductType} />
       <CommentsPanel type="product" id={product.id} />
     </>

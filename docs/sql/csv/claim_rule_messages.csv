@@ -1,0 +1,9 @@
+policy_version,rule_code,title_pass,title_warn,title_fail,subtitle_template,failure_template,recommended_text
+v1,protein.source,Source of protein,Protein support,Source of protein,At least 12% of energy from protein.,Protein energy contribution is below 12%.,SOURCE OF PROTEIN
+v1,protein.high,High protein,Protein support,High protein,At least 20% of energy from protein.,Protein energy contribution is below 20%.,HIGH PROTEIN
+v1,fibre.source,Source of fibre,Fibre support,Source of fibre,At least 3g per serving or 1.5g per 100kcal.,Fibre does not meet source threshold.,SOURCE OF FIBRE
+v1,fibre.high,High fibre,Fibre support,High fibre,At least 6g per serving or 3g per 100kcal.,Fibre does not meet high threshold.,HIGH FIBRE
+v1,fat.low,Low fat,Fat profile,Low fat,No more than 3g fat per serving.,Fat exceeds low claim threshold.,LOW FAT
+v1,sat.low,Low saturated fat,Saturates profile,Low saturated fat,No more than 1.5g saturates per serving.,Saturates exceed low claim threshold.,LOW SATURATED FAT
+v1,sugar.low,Low sugar,Sugar profile,Low sugar,No more than 5g sugars per serving.,Sugars exceed low claim threshold.,LOW SUGAR
+v1,salt.low,Low salt,Salt profile,Low salt,No more than 0.3g salt per serving.,Salt exceeds low claim threshold.,LOW SALT
