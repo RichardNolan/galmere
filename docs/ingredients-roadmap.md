@@ -70,3 +70,72 @@
 - Add unit tests around shared Zod schemas and cross-row rules (unique sequence, total tolerance).
 - Add integration tests for save success/failure states and Supabase error rendering.
 - Add a small telemetry/event hook for save outcomes (success/fail + reason) to monitor editor reliability.
+
+### Front of Pack (FOP) Traffic Light Recommendations
+
+#### Data Ownership (DB vs Constants)
+
+- Move policy-driven thresholds to DB table `fop_nutrient_thresholds` (versioned + active rows).
+- Move policy-driven text to DB table `fop_display_messages` (versioned + locale-aware keys).
+- Keep visual presentation mapping in app constants (status -> color classes), unless design requires runtime theming.
+- Keep utility logic in code constants/helpers (per-serving arithmetic, number formatting).
+
+#### Service Architecture
+
+- Extract FOP evaluation into a reusable service module so UI only renders tile contracts.
+- Prefer one evaluation entry point that accepts product nutrition + serving size + policy version.
+- Keep fallback defaults in app code so missing policy rows do not break product pages.
+
+#### Audit and Traceability
+
+- Use `fop_evaluation_audit` for runtime evaluation snapshots (inputs + outputs + policy version).
+- Do not write audit rows from pure UI render paths by default.
+- Add server-side evaluation endpoint or RPC that performs: fetch policy -> evaluate -> write audit -> return tiles.
+- Add dedupe/idempotency guard for audit writes (for example request id or stable evaluation hash) to reduce noisy duplicates.
+
+#### Rollout and Versioning
+
+- Introduce explicit policy activation workflow:
+  - seed policy rows for next version,
+  - validate in staging,
+  - flip active policy per market/country.
+- Add effective date governance for future thresholds/messages (`effective_from`, `effective_to`).
+- Add locale coverage plan for message keys before non-`en-GB` rollout.
+
+#### Testing Matrix (FOP)
+
+- Add unit tests for inclusive threshold boundaries:
+  - low boundary stays LOW,
+  - medium boundary stays MEDIUM,
+  - above medium is HIGH.
+- Add conversion tests for `serving_size / 100` multiplier correctness.
+- Add pending-state tests:
+  - missing or invalid serving size -> all pending,
+  - missing nutrient value -> single tile pending only.
+- Add contract tests for tile payload fields:
+  - `nutrient_code`, `display_name`, `display_value`, `status_label`, `color_tone`.
+
+#### Operational Checks
+
+- Add a post-seed verification script/query set:
+  - required nutrient threshold rows exist per active policy,
+  - required message keys exist per locale,
+  - no duplicate active rows per nutrient/policy.
+- Add alerting for policy fetch failures in product route loaders.
+
+## Next (FOP Planned)
+
+### 6) Move FOP evaluation behind server boundary
+
+- Implement a Supabase RPC or edge function for policy fetch + evaluation + optional audit write.
+- Update product route to consume evaluated tile payload from the server path.
+
+### 7) Implement controlled audit logging
+
+- Write to `fop_evaluation_audit` only on explicit evaluation events (not every render).
+- Store minimal required snapshots for reproducibility and debugging.
+
+### 8) Expand policy operations
+
+- Add admin-safe workflow for policy version creation and activation.
+- Add validation checks for thresholds/messages before a policy can be activated.

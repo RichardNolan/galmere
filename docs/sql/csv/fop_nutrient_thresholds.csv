@@ -1,0 +1,5 @@
+policy_version,nutrient_code,low_cutoff,medium_cutoff,unit,comparison_mode,is_active,effective_from,effective_to
+v1,fat,3.0,17.5,g per serving,inclusive,true,2026-01-01,
+v1,saturates,1.5,5.0,g per serving,inclusive,true,2026-01-01,
+v1,sugars,5.0,22.5,g per serving,inclusive,true,2026-01-01,
+v1,salt,0.3,1.5,g per serving,inclusive,true,2026-01-01,

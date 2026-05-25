@@ -23,6 +23,17 @@ type FlatIngredientRow = {
   declared_inherited: boolean;
 };
 
+type FopThresholdRow = {
+  nutrient_code: "fat" | "saturates" | "sugars" | "salt";
+  low_cutoff: number;
+  medium_cutoff: number;
+};
+
+type FopMessageRow = {
+  message_key: string;
+  message_value: string;
+};
+
 export const Route = createFileRoute("/products/$id")({
   beforeLoad: async () => await requireAuth(),
   loader: async ({ params: { id } }) => {
@@ -47,6 +58,33 @@ export const Route = createFileRoute("/products/$id")({
       throw new Error(`Failed to load products: ${error.message}`);
     }
 
+    const policyVersion = "v1";
+
+    const [
+      { data: thresholdRows, error: thresholdError },
+      { data: messageRows, error: messageError },
+    ] = await Promise.all([
+      supabase
+        .from("fop_nutrient_thresholds")
+        .select("nutrient_code, low_cutoff, medium_cutoff")
+        .eq("policy_version", policyVersion)
+        .eq("is_active", true),
+      supabase
+        .from("fop_display_messages")
+        .select("message_key, message_value")
+        .eq("policy_version", policyVersion)
+        .eq("locale", "en-GB"),
+    ]);
+
+    const fopPolicyData =
+      thresholdError || messageError
+        ? null
+        : {
+            policyVersion,
+            thresholds: (thresholdRows ?? []) as FopThresholdRow[],
+            messages: (messageRows ?? []) as FopMessageRow[],
+          };
+
     const recipes = product?.product_recipes ?? [];
     const currentRecipe =
       recipes.find((recipe: { is_current: boolean }) => recipe.is_current) ?? recipes[0] ?? null;
@@ -66,20 +104,20 @@ export const Route = createFileRoute("/products/$id")({
       }
     }
 
-    return { product: product ?? [], flatIngredients };
+    return { product: product ?? [], flatIngredients, fopPolicyData };
   },
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const { product, flatIngredients } = Route.useLoaderData();
+  const { product, flatIngredients, fopPolicyData } = Route.useLoaderData();
   return (
     <>
       <Brand brand={product.brand} />
       <Product key={product.id} product={product as ProductType} />
       <IngredientsPanel product={product as ProductType} flatIngredients={flatIngredients} />
       <NutritionDeclarationPanel product={product as ProductType} />
-      <FrontOfPackTrafficLights product={product as ProductType} />
+      <FrontOfPackTrafficLights product={product as ProductType} fopPolicyData={fopPolicyData} />
       <NutritionPanel product={product as ProductType} />
       <CommentsPanel type="product" id={product.id} />
     </>

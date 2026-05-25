@@ -1,0 +1,9 @@
+policy_version,message_key,message_value,locale
+v1,fop.awaiting_serving_size,ENTER SERVING SIZE ON DASHBOARD,en-GB
+v1,fop.awaiting_fat,AWAITING FAT INPUT,en-GB
+v1,fop.awaiting_sat_fat,AWAITING SAT FAT INPUT,en-GB
+v1,fop.awaiting_sugars,AWAITING SUGARS INPUT,en-GB
+v1,fop.awaiting_salt,AWAITING SALT INPUT,en-GB
+v1,fop.status.low,LOW per serving,en-GB
+v1,fop.status.medium,MEDIUM per serving,en-GB
+v1,fop.status.high,HIGH per serving,en-GB
