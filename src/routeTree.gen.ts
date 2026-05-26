@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RawMaterialsRouteImport } from './routes/raw-materials'
 import { Route as ProcessHaccpRouteImport } from './routes/process-haccp'
 import { Route as PackagingRouteImport } from './routes/packaging'
 import { Route as NutritionRouteImport } from './routes/nutrition'
@@ -28,6 +29,11 @@ import { Route as SignInSplatRouteImport } from './routes/sign-in.$'
 import { Route as ProductsIdRouteImport } from './routes/products.$id'
 import { Route as AdditivesIdRouteImport } from './routes/additives_.$id'
 
+const RawMaterialsRoute = RawMaterialsRouteImport.update({
+  id: '/raw-materials',
+  path: '/raw-materials',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProcessHaccpRoute = ProcessHaccpRouteImport.update({
   id: '/process-haccp',
   path: '/process-haccp',
@@ -133,6 +139,7 @@ export interface FileRoutesByFullPath {
   '/nutrition': typeof NutritionRoute
   '/packaging': typeof PackagingRoute
   '/process-haccp': typeof ProcessHaccpRoute
+  '/raw-materials': typeof RawMaterialsRoute
   '/additives/$id': typeof AdditivesIdRoute
   '/products/$id': typeof ProductsIdRoute
   '/sign-in/$': typeof SignInSplatRoute
@@ -152,6 +159,7 @@ export interface FileRoutesByTo {
   '/nutrition': typeof NutritionRoute
   '/packaging': typeof PackagingRoute
   '/process-haccp': typeof ProcessHaccpRoute
+  '/raw-materials': typeof RawMaterialsRoute
   '/additives/$id': typeof AdditivesIdRoute
   '/products/$id': typeof ProductsIdRoute
   '/sign-in/$': typeof SignInSplatRoute
@@ -173,6 +181,7 @@ export interface FileRoutesById {
   '/nutrition': typeof NutritionRoute
   '/packaging': typeof PackagingRoute
   '/process-haccp': typeof ProcessHaccpRoute
+  '/raw-materials': typeof RawMaterialsRoute
   '/additives_/$id': typeof AdditivesIdRoute
   '/products/$id': typeof ProductsIdRoute
   '/sign-in/$': typeof SignInSplatRoute
@@ -195,6 +204,7 @@ export interface FileRouteTypes {
     | '/nutrition'
     | '/packaging'
     | '/process-haccp'
+    | '/raw-materials'
     | '/additives/$id'
     | '/products/$id'
     | '/sign-in/$'
@@ -214,6 +224,7 @@ export interface FileRouteTypes {
     | '/nutrition'
     | '/packaging'
     | '/process-haccp'
+    | '/raw-materials'
     | '/additives/$id'
     | '/products/$id'
     | '/sign-in/$'
@@ -234,6 +245,7 @@ export interface FileRouteTypes {
     | '/nutrition'
     | '/packaging'
     | '/process-haccp'
+    | '/raw-materials'
     | '/additives_/$id'
     | '/products/$id'
     | '/sign-in/$'
@@ -255,6 +267,7 @@ export interface RootRouteChildren {
   NutritionRoute: typeof NutritionRoute
   PackagingRoute: typeof PackagingRoute
   ProcessHaccpRoute: typeof ProcessHaccpRoute
+  RawMaterialsRoute: typeof RawMaterialsRoute
   AdditivesIdRoute: typeof AdditivesIdRoute
   SignInSplatRoute: typeof SignInSplatRoute
   SignUpSplatRoute: typeof SignUpSplatRoute
@@ -262,6 +275,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/raw-materials': {
+      id: '/raw-materials'
+      path: '/raw-materials'
+      fullPath: '/raw-materials'
+      preLoaderRoute: typeof RawMaterialsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/process-haccp': {
       id: '/process-haccp'
       path: '/process-haccp'
@@ -419,6 +439,7 @@ const rootRouteChildren: RootRouteChildren = {
   NutritionRoute: NutritionRoute,
   PackagingRoute: PackagingRoute,
   ProcessHaccpRoute: ProcessHaccpRoute,
+  RawMaterialsRoute: RawMaterialsRoute,
   AdditivesIdRoute: AdditivesIdRoute,
   SignInSplatRoute: SignInSplatRoute,
   SignUpSplatRoute: SignUpSplatRoute,

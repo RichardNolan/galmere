@@ -15,6 +15,7 @@ import { Link, linkOptions, useRouterState } from "@tanstack/react-router";
 import {
   Beaker,
   BookOpenText,
+  Boxes,
   ClipboardCheck,
   FileArchive,
   FlaskConical,
@@ -43,6 +44,7 @@ const navItems: NavItem[] = linkOptions([
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { to: "/documents", label: "Documents", icon: FileArchive },
   { to: "/products", label: "Products", icon: Package },
+  { to: "/raw-materials", label: "Raw Materials", icon: Boxes },
   { to: "/additives", label: "Food Additives", icon: Beaker },
   { to: "/flavourings", label: "Flavourings", icon: FlaskConical },
   { to: "/allergens", label: "Allergens", icon: SearchCheck },
