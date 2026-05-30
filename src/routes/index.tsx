@@ -57,13 +57,10 @@ function Home() {
 
       <Show when="signed-out">
         <div className="rounded-2xl border border-dashed border-slate-300 bg-white/80 p-5 text-sm text-slate-600">
-          Please sign in or sign up to access the dashboard and internal documents.
+          Please sign in to access the dashboard and internal documents. Access is invitation-only.
           <nav className="mt-3 flex items-center gap-4 text-sm font-semibold text-emerald-700">
             <Link to="/sign-in/$" className="hover:text-emerald-900">
               Sign In
-            </Link>
-            <Link to="/sign-up/$" className="hover:text-emerald-900">
-              Sign Up
             </Link>
           </nav>
         </div>

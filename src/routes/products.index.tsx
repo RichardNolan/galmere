@@ -1,12 +1,14 @@
 import type { TypeProduct } from "#/api/Common";
 import { Button } from "#/components/ui/button";
 import { requireAuth } from "#/lib/require-auth";
-import { supabase } from "@/lib/supabase";
+import { createServerSupabaseClient } from "#/lib/supabase-server";
 import { createFileRoute, Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/products/")({
   beforeLoad: async () => await requireAuth(),
   loader: async () => {
+    const supabase = await createServerSupabaseClient();
+
     const { data: brands, error } = await supabase.from("brands").select(`
       *,
       products:products(*)

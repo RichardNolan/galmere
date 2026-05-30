@@ -1,12 +1,13 @@
 import AllergenManagement from "#/components/AllergenManagement";
 import { requireAuth } from "#/lib/require-auth";
-import { supabase } from "#/lib/supabase";
+import { createServerSupabaseClient } from "#/lib/supabase-server";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/allergens")({
   beforeLoad: async () => await requireAuth(),
   loader: async () => {
     try {
+      const supabase = await createServerSupabaseClient();
       const { data: allergens } = await supabase.from("allergen_rules").select();
       return { allergens, error: null };
     } catch (e) {

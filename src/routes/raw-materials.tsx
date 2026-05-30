@@ -14,12 +14,14 @@ import { Card, CardContent } from "#/components/ui/card";
 import { Separator } from "#/components/ui/separator";
 import { useRawMaterialsPage } from "#/hooks/use-raw-materials-page";
 import { requireAuth } from "#/lib/require-auth";
-import { supabase } from "#/lib/supabase";
+import { createServerSupabaseClient } from "#/lib/supabase-server";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/raw-materials")({
   beforeLoad: async () => requireAuth(),
   loader: async () => {
+    const supabase = await createServerSupabaseClient();
+
     const [rawMaterialsResult, allergenRulesResult, allergenSubtypesResult] = await Promise.all([
       supabase
         .from("raw_materials")

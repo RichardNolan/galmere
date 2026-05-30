@@ -8,7 +8,7 @@ import { NutritionDeclarationPanel } from "#/components/nutrition-declaration-pa
 import { NutritionPanel } from "#/components/nutrition-panel";
 import { Product } from "#/components/product";
 import { requireAuth } from "#/lib/require-auth";
-import { supabase } from "#/lib/supabase";
+import { createServerSupabaseClient } from "#/lib/supabase-server";
 import { createFileRoute } from "@tanstack/react-router";
 
 type FlatIngredientRow = {
@@ -95,6 +95,8 @@ function toFiniteNumber(value: unknown): number | null {
 export const Route = createFileRoute("/products/$id")({
   beforeLoad: async () => await requireAuth(),
   loader: async ({ params: { id } }) => {
+    const supabase = await createServerSupabaseClient();
+
     const { data: product, error } = await supabase
       .from("products")
       .select(`
