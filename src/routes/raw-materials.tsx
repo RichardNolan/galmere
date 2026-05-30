@@ -1,3 +1,4 @@
+import { PdfExtractor } from "#/components/pdf-extractor";
 import { AllergenDeclarationsDialog } from "#/components/raw-materials/allergen-declarations-dialog";
 import { CreateRawMaterialDialog } from "#/components/raw-materials/create-raw-material-dialog";
 import { EditRawMaterialDialog } from "#/components/raw-materials/edit-raw-material-dialog";
@@ -89,6 +90,13 @@ function RouteComponent() {
             <Button type="button" onClick={page.openCreateDialog}>
               Create raw material
             </Button>
+            <PdfExtractor
+              skipUpload
+              extractionType="lab-cert"
+              onResult={(result) => console.log(result)}
+              onError={(err) => console.error(err)}
+              triggerLabel="Extract from PDF"
+            />
           </div>
 
           <Separator />
