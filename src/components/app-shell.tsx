@@ -10,7 +10,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "#/components/ui/sheet";
-import { Show, UserButton } from "@clerk/tanstack-react-start";
+import { setSupabaseAccessTokenGetter } from "#/lib/supabase";
+import { Show, UserButton, useAuth } from "@clerk/tanstack-react-start";
 import { Link, linkOptions, useRouterState } from "@tanstack/react-router";
 import {
   Beaker,
@@ -28,7 +29,7 @@ import {
   Sparkles,
   TestTube2,
 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type AppShellProps = {
   children: React.ReactNode;
@@ -215,6 +216,18 @@ function SignedOutShell({ children }: AppShellProps) {
 }
 
 export default function AppShell({ children }: AppShellProps) {
+  const { getToken } = useAuth();
+
+  useEffect(() => {
+    setSupabaseAccessTokenGetter(async () => {
+      return getToken();
+    });
+
+    return () => {
+      setSupabaseAccessTokenGetter(null);
+    };
+  }, [getToken]);
+
   return (
     <>
       <Show when="signed-in">

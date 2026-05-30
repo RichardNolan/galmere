@@ -139,3 +139,59 @@
 
 - Add admin-safe workflow for policy version creation and activation.
 - Add validation checks for thresholds/messages before a policy can be activated.
+
+## Security/Auth Backlog (Potential)
+
+### S1) Remove public URL dependence for uploaded PDFs
+
+- Risk: uploaded files can become broadly accessible if bucket/public URL behavior is misconfigured.
+- Current behavior: PDF upload flow resolves a public URL after upload.
+- Future change:
+  - keep bucket private,
+  - store object path only,
+  - generate short-lived signed URLs for read/download.
+- Acceptance criteria:
+  - no persisted public URLs,
+  - private bucket access only,
+  - signed URL expiry is enforced.
+
+### S2) Remove auth claim debug logging from runtime paths
+
+- Risk: token claims and identity data can leak into logs if debug mode is enabled outside local development.
+- Current behavior: optional auth debug logging is available behind an env flag.
+- Future change:
+  - remove or hard-limit claim logging to local-only contexts,
+  - keep only non-sensitive diagnostics.
+- Acceptance criteria:
+  - no claim payloads in non-local logs,
+  - production environment cannot enable verbose claim dumps.
+
+### S3) Move from role-only RLS to ownership/sharing RLS
+
+- Risk: authenticated-only table policies allow any signed-in user to read/write all rows.
+- Current behavior: RLS is restricted to authenticated role, but not row ownership.
+- Future change:
+  - introduce owner columns and ownership predicates,
+  - add explicit share/join tables for collaborative read access,
+  - keep write access limited to owner (or explicit editors).
+- Acceptance criteria:
+  - user A cannot read/write user B rows unless explicitly shared,
+  - policy tests cover insert/select/update/delete ownership rules,
+  - no table retains broad using (true) for user-owned data.
+
+## Next (Security Planned)
+
+### 9) Private storage + signed URL migration
+
+- Refactor upload/read flows to path + signed URL model.
+- Add a cleanup migration for any historical public URLs.
+
+### 10) Logging hardening
+
+- Remove sensitive auth debug outputs from runtime code.
+- Keep a minimal, non-sensitive diagnostics path for auth/RLS troubleshooting.
+
+### 11) Ownership-based RLS rollout
+
+- Implement ownership policy model on high-risk tables first (comments, nutrition, raw materials).
+- Expand to all user-owned entities once integration tests pass.
