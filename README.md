@@ -1,4 +1,4 @@
-Welcome to my app
+Welcome to Livs app
 
 # Getting Started
 
