@@ -3,23 +3,26 @@ import { Button } from "#/components/ui/button";
 import { requireAuth } from "#/lib/require-auth";
 import { createServerSupabaseClient } from "#/lib/supabase-server";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { createServerFn } from "@tanstack/react-start";
 
-export const Route = createFileRoute("/products/")({
-  beforeLoad: async () => await requireAuth(),
-  loader: async () => {
-    const supabase = await createServerSupabaseClient();
+const fetchProductsIndexData = createServerFn({ method: "GET" }).handler(async () => {
+  const supabase = await createServerSupabaseClient();
 
-    const { data: brands, error } = await supabase.from("brands").select(`
+  const { data: brands, error } = await supabase.from("brands").select(`
       *,
       products:products(*)
     `);
 
-    if (error) {
-      throw new Error(`Failed to load products: ${error.message}`);
-    }
+  if (error) {
+    throw new Error(`Failed to load products: ${error.message}`);
+  }
 
-    return { brands: brands ?? [] };
-  },
+  return { brands: brands ?? [] };
+});
+
+export const Route = createFileRoute("/products/")({
+  beforeLoad: async () => await requireAuth(),
+  loader: async () => fetchProductsIndexData(),
   component: RouteComponent,
 });
 
