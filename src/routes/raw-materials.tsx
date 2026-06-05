@@ -16,55 +16,58 @@ import { useRawMaterialsPage } from "#/hooks/use-raw-materials-page";
 import { requireAuth } from "#/lib/require-auth";
 import { createServerSupabaseClient } from "#/lib/supabase-server";
 import { createFileRoute } from "@tanstack/react-router";
+import { createServerFn } from "@tanstack/react-start";
+
+const fetchRawMaterialsPageData = createServerFn({ method: "GET" }).handler(async () => {
+  const supabase = await createServerSupabaseClient();
+
+  const [rawMaterialsResult, allergenRulesResult, allergenSubtypesResult] = await Promise.all([
+    supabase
+      .from("raw_materials")
+      .select(
+        "id, rm_code, name, supplier_name, country_of_origin, declaration_text, spec_file_path, is_active",
+      )
+      .order("rm_code", { ascending: true }),
+    supabase
+      .from("allergen_rules")
+      .select("id, label, short_label, has_subtypes, sort_order, is_active")
+      .order("sort_order", { ascending: true }),
+    supabase
+      .from("allergen_subtypes")
+      .select("id, allergen_id, label, sort_order, is_active")
+      .order("sort_order", { ascending: true }),
+  ]);
+
+  if (rawMaterialsResult.error) {
+    throw new Error(`Failed to load raw materials: ${rawMaterialsResult.error.message}`);
+  }
+
+  if (allergenRulesResult.error) {
+    throw new Error(`Failed to load allergen rules: ${allergenRulesResult.error.message}`);
+  }
+
+  if (allergenSubtypesResult.error) {
+    throw new Error(`Failed to load allergen subtypes: ${allergenSubtypesResult.error.message}`);
+  }
+
+  const allergenRules = ((allergenRulesResult.data ?? []) as AllergenRuleRow[])
+    .filter((row) => row.is_active !== false)
+    .sort((a, b) => a.sort_order - b.sort_order || a.label.localeCompare(b.label));
+
+  const allergenSubtypes = ((allergenSubtypesResult.data ?? []) as AllergenSubtypeRow[])
+    .filter((row) => row.is_active !== false)
+    .sort((a, b) => a.sort_order - b.sort_order || a.label.localeCompare(b.label));
+
+  return {
+    rawMaterials: (rawMaterialsResult.data ?? []) as RawMaterialRow[],
+    allergenRules,
+    allergenSubtypes,
+  };
+});
 
 export const Route = createFileRoute("/raw-materials")({
   beforeLoad: async () => requireAuth(),
-  loader: async () => {
-    const supabase = await createServerSupabaseClient();
-
-    const [rawMaterialsResult, allergenRulesResult, allergenSubtypesResult] = await Promise.all([
-      supabase
-        .from("raw_materials")
-        .select(
-          "id, rm_code, name, supplier_name, country_of_origin, declaration_text, spec_file_path, is_active",
-        )
-        .order("rm_code", { ascending: true }),
-      supabase
-        .from("allergen_rules")
-        .select("id, label, short_label, has_subtypes, sort_order, is_active")
-        .order("sort_order", { ascending: true }),
-      supabase
-        .from("allergen_subtypes")
-        .select("id, allergen_id, label, sort_order, is_active")
-        .order("sort_order", { ascending: true }),
-    ]);
-
-    if (rawMaterialsResult.error) {
-      throw new Error(`Failed to load raw materials: ${rawMaterialsResult.error.message}`);
-    }
-
-    if (allergenRulesResult.error) {
-      throw new Error(`Failed to load allergen rules: ${allergenRulesResult.error.message}`);
-    }
-
-    if (allergenSubtypesResult.error) {
-      throw new Error(`Failed to load allergen subtypes: ${allergenSubtypesResult.error.message}`);
-    }
-
-    const allergenRules = ((allergenRulesResult.data ?? []) as AllergenRuleRow[])
-      .filter((row) => row.is_active !== false)
-      .sort((a, b) => a.sort_order - b.sort_order || a.label.localeCompare(b.label));
-
-    const allergenSubtypes = ((allergenSubtypesResult.data ?? []) as AllergenSubtypeRow[])
-      .filter((row) => row.is_active !== false)
-      .sort((a, b) => a.sort_order - b.sort_order || a.label.localeCompare(b.label));
-
-    return {
-      rawMaterials: (rawMaterialsResult.data ?? []) as RawMaterialRow[],
-      allergenRules,
-      allergenSubtypes,
-    };
-  },
+  loader: async () => fetchRawMaterialsPageData(),
   component: RouteComponent,
 });
 
