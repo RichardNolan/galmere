@@ -1,6 +1,5 @@
 import { Badge } from "#/components/ui/badge";
 import { Button } from "#/components/ui/button";
-import { Card, CardContent } from "#/components/ui/card";
 import { Separator } from "#/components/ui/separator";
 import {
   Sheet,
@@ -168,7 +167,7 @@ function SignedInShell({ children }: AppShellProps) {
       </header>
 
       <div className="relative mx-auto flex w-full max-w-400">
-        <aside className="sticky top-16 hidden h-[calc(100vh-4rem)] w-72 shrink-0 border-r border-slate-200/70 bg-slate-50/80 p-4 lg:block">
+        {/* <aside className="sticky top-16 hidden h-[calc(100vh-4rem)] w-72 shrink-0 border-r border-slate-200/70 bg-slate-50/80 p-4 lg:block">
           <Card className="mb-4 overflow-hidden border-white/80">
             <img
               src="https://images.unsplash.com/photo-1495195134817-aeb325a55b65?auto=format&fit=crop&w=900&q=80"
@@ -182,7 +181,7 @@ function SignedInShell({ children }: AppShellProps) {
           </Card>
 
           <NavigationList />
-        </aside>
+        </aside> */}
 
         <main className="min-h-[calc(100vh-4rem)] flex-1 px-4 py-6 lg:px-8 lg:py-8">
           {children}
