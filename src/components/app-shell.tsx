@@ -1,4 +1,4 @@
-import { Badge } from "#/components/ui/badge";
+import galmereLogo from "#/assets/images/Galmere-logo.png";
 import { Button } from "#/components/ui/button";
 import { Card, CardContent } from "#/components/ui/card";
 import { Separator } from "#/components/ui/separator";
@@ -58,9 +58,9 @@ const navItems: NavItem[] = linkOptions([
 ]);
 
 const topLevelLinks = [
-  { label: "Partners", to: "/documents" },
-  { label: "Compliance", to: "/labeling" },
-  { label: "Support", to: "/dashboard" },
+  { label: "Brands", href: "brands.html" },
+  { label: "Raw Materials", href: "raw-materials.html" },
+  { label: "Packaging", href: "packaging.html" },
 ];
 
 function NavigationList({ onNavigate }: { onNavigate?: () => void }) {
@@ -110,8 +110,8 @@ function SignedInShell({ children }: AppShellProps) {
     <div className="relative min-h-screen bg-[linear-gradient(145deg,#f9faf6_0%,#f2f7ef_38%,#eef5ff_100%)]">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_14%_14%,rgba(245,158,11,0.14)_0%,transparent_44%),radial-gradient(circle_at_84%_4%,rgba(16,185,129,0.14)_0%,transparent_35%)]" />
 
-      <header className="sticky top-0 z-30 border-b border-slate-200/70 bg-white/80 backdrop-blur-xl">
-        <div className="mx-auto flex h-16 max-w-400 items-center gap-4 px-4 lg:px-8">
+      <header className="sticky top-0 z-30 border-b border-[#E5E7EB] bg-white">
+        <div className="mx-auto flex h-[76px] max-w-400 items-center gap-5 px-4 lg:px-8">
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
               <Button
@@ -136,32 +136,28 @@ function SignedInShell({ children }: AppShellProps) {
             </SheetContent>
           </Sheet>
 
-          <Link to="/" className="inline-flex items-center gap-2">
-            <span className="grid size-9 place-items-center rounded-xl bg-emerald-600 text-white shadow-lg shadow-emerald-600/30">
-              <Sparkles className="size-4" />
-            </span>
-            <span className="font-[Fraunces] text-xl font-semibold tracking-tight text-slate-900">
-              Galmere
-            </span>
+          <Link to="/dashboard" className="inline-flex shrink-0 items-center">
+            <img
+              src={galmereLogo}
+              alt="Galmere"
+              className="h-auto w-[200px] max-w-[200px] object-contain"
+            />
           </Link>
 
-          <nav className="ml-6 hidden items-center gap-1 lg:flex">
+          <nav className="hidden items-center gap-2 lg:flex">
             {topLevelLinks.map((link) => (
               <Button key={link.label} variant="ghost" size="sm" asChild>
-                <Link
-                  to={link.to}
-                  className="rounded-lg px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-emerald-50 hover:text-emerald-800"
+                <a
+                  href={link.href}
+                  className="rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-[#0F5F66]/5 hover:text-[#0F5F66]"
                 >
                   {link.label}
-                </Link>
+                </a>
               </Button>
             ))}
           </nav>
 
-          <div className="ml-auto flex items-center gap-3">
-            <Badge className="hidden sm:inline-flex" variant="default">
-              Food Services Portal
-            </Badge>
+          <div className="ml-auto flex items-center">
             <UserButton />
           </div>
         </div>
