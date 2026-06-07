@@ -17,6 +17,7 @@ import { Route as LabelingRouteImport } from './routes/labeling'
 import { Route as LabAverageRouteImport } from './routes/lab-average'
 import { Route as IngredientsClaimsRouteImport } from './routes/ingredients-claims'
 import { Route as FlavouringsRouteImport } from './routes/flavourings'
+import { Route as DocumentsRouteImport } from './routes/documents'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as AllergensRouteImport } from './routes/allergens'
 import { Route as AdditivesRouteImport } from './routes/additives'
@@ -78,6 +79,11 @@ const IngredientsClaimsRoute = IngredientsClaimsRouteImport.update({
 const FlavouringsRoute = FlavouringsRouteImport.update({
   id: '/flavourings',
   path: '/flavourings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocumentsRoute = DocumentsRouteImport.update({
+  id: '/documents',
+  path: '/documents',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -204,6 +210,7 @@ export interface FileRoutesByFullPath {
   '/additives': typeof AdditivesRoute
   '/allergens': typeof AllergensRoute
   '/dashboard': typeof DashboardRoute
+  '/documents': typeof DocumentsRoute
   '/flavourings': typeof FlavouringsRoute
   '/ingredients-claims': typeof IngredientsClaimsRoute
   '/lab-average': typeof LabAverageRoute
@@ -234,6 +241,7 @@ export interface FileRoutesByTo {
   '/additives': typeof AdditivesRoute
   '/allergens': typeof AllergensRoute
   '/dashboard': typeof DashboardRoute
+  '/documents': typeof DocumentsRoute
   '/flavourings': typeof FlavouringsRoute
   '/ingredients-claims': typeof IngredientsClaimsRoute
   '/lab-average': typeof LabAverageRoute
@@ -266,6 +274,7 @@ export interface FileRoutesById {
   '/additives': typeof AdditivesRoute
   '/allergens': typeof AllergensRoute
   '/dashboard': typeof DashboardRoute
+  '/documents': typeof DocumentsRoute
   '/flavourings': typeof FlavouringsRoute
   '/ingredients-claims': typeof IngredientsClaimsRoute
   '/lab-average': typeof LabAverageRoute
@@ -300,6 +309,7 @@ export interface FileRouteTypes {
     | '/additives'
     | '/allergens'
     | '/dashboard'
+    | '/documents'
     | '/flavourings'
     | '/ingredients-claims'
     | '/lab-average'
@@ -330,6 +340,7 @@ export interface FileRouteTypes {
     | '/additives'
     | '/allergens'
     | '/dashboard'
+    | '/documents'
     | '/flavourings'
     | '/ingredients-claims'
     | '/lab-average'
@@ -361,6 +372,7 @@ export interface FileRouteTypes {
     | '/additives'
     | '/allergens'
     | '/dashboard'
+    | '/documents'
     | '/flavourings'
     | '/ingredients-claims'
     | '/lab-average'
@@ -394,6 +406,7 @@ export interface RootRouteChildren {
   AdditivesRoute: typeof AdditivesRoute
   AllergensRoute: typeof AllergensRoute
   DashboardRoute: typeof DashboardRoute
+  DocumentsRoute: typeof DocumentsRoute
   FlavouringsRoute: typeof FlavouringsRoute
   IngredientsClaimsRoute: typeof IngredientsClaimsRoute
   LabAverageRoute: typeof LabAverageRoute
@@ -464,6 +477,13 @@ declare module '@tanstack/react-router' {
       path: '/flavourings'
       fullPath: '/flavourings'
       preLoaderRoute: typeof FlavouringsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/documents': {
+      id: '/documents'
+      path: '/documents'
+      fullPath: '/documents'
+      preLoaderRoute: typeof DocumentsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -686,6 +706,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdditivesRoute: AdditivesRoute,
   AllergensRoute: AllergensRoute,
   DashboardRoute: DashboardRoute,
+  DocumentsRoute: DocumentsRoute,
   FlavouringsRoute: FlavouringsRoute,
   IngredientsClaimsRoute: IngredientsClaimsRoute,
   LabAverageRoute: LabAverageRoute,

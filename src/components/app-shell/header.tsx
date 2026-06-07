@@ -1,32 +1,36 @@
-import { Badge } from "#/components/ui/badge";
+import galmereLogo from "#/assets/images/Galmere-logo.png";
 import { Button } from "#/components/ui/button";
 import { UserButton } from "@clerk/tanstack-react-start";
 import { Link } from "@tanstack/react-router";
-import { Sparkles } from "lucide-react";
+import { HeaderSearch } from "./search";
 
 export const Header = () => {
   return (
-    <header className="sticky top-0 z-30 border-b border-slate-200/70 bg-white/80 backdrop-blur-xl">
-      <div className="mx-auto flex h-16 max-w-400 items-center gap-4 px-4 lg:px-8">
-        <Link to="/" className="inline-flex items-center gap-2">
-          <span className="grid size-9 place-items-center rounded-xl bg-emerald-600 text-white shadow-lg shadow-emerald-600/30">
-            <Sparkles className="size-4" />
-          </span>
-          <span className="font-[Fraunces] text-xl font-semibold tracking-tight text-slate-900">
-            Galmere
-          </span>
+    <header className="sticky top-0 z-30 border-b border-[#E5E7EB] bg-white">
+      <div className="mx-auto flex h-19 max-w-400 items-center gap-5 px-4 lg:px-8">
+        <Link to="/dashboard" className="inline-flex shrink-0 items-center">
+          <img
+            src={galmereLogo}
+            alt="Galmere"
+            className="h-auto w-[200px] max-w-[200px] object-contain"
+          />
         </Link>
-
         <nav className="ml-6 hidden items-center gap-1 lg:flex">
           <Button variant="ghost" size="sm" asChild>
             <Link to={"/brands"}>Brands</Link>
           </Button>
+          <Button variant="ghost" size="sm" asChild>
+            <Link to={"/raw-materials"}>Raw Materials</Link>
+          </Button>
+          <Button variant="ghost" size="sm" asChild>
+            <Link to={"/packaging"}>Packaging</Link>
+          </Button>
+          <Button variant="ghost" size="sm" asChild>
+            <Link to={"/documents"}>Documents</Link>
+          </Button>
         </nav>
-
         <div className="ml-auto flex items-center gap-3">
-          <Badge className="hidden sm:inline-flex" variant="default">
-            Food Services Portal
-          </Badge>
+          <HeaderSearch />
           <UserButton />
         </div>
       </div>
