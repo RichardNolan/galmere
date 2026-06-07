@@ -2,7 +2,7 @@ import type { TypeBrand } from "#/api/Common";
 import { getBrandImageSrc } from "#/lib/brand-image";
 import { useEffect, useMemo, useState } from "react";
 
-export const Brand = ({ brand }: { brand: TypeBrand }) => {
+export const Brand = ({ brand, productCount }: { brand: TypeBrand; productCount?: number }) => {
   const [imageFailed, setImageFailed] = useState(false);
 
   const brandImageSrc = useMemo(() => getBrandImageSrc(brand?.brandImage), [brand]);
@@ -14,7 +14,6 @@ export const Brand = ({ brand }: { brand: TypeBrand }) => {
 
   return (
     <div className="rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700">
-      <p className="font-medium text-slate-900">Brand (read-only)</p>
       {brand ? (
         <div className="mt-2 space-y-2">
           {showBrandImage ? (
@@ -29,6 +28,9 @@ export const Brand = ({ brand }: { brand: TypeBrand }) => {
           <p>
             {brand.brandName} ({brand.brandCode})
           </p>
+          {productCount ? (
+            <p className="font-medium text-slate-900">Products ({productCount})</p>
+          ) : null}
         </div>
       ) : (
         <p className="mt-1 text-slate-500">No brand linked</p>
