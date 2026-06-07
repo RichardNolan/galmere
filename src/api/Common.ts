@@ -17,7 +17,7 @@ export type TypeProduct = {
 };
 
 export type TypeBrand = {
-  id?: number;
+  id: number;
   brandName: string;
   brandCode: string;
   brandImage: string;

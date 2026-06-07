@@ -97,7 +97,7 @@ function RouteComponent() {
             </Button>
             <PdfExtractor
               skipUpload
-              extractionType="lab-cert"
+              extractionType="batch-record"
               onResult={(result) => console.log(result)}
               onError={(err) => console.error(err)}
               triggerLabel="Extract from PDF"
